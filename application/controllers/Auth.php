@@ -31,18 +31,19 @@
 
 		public function login()
 		{
-			$username = $this->input->post('username');
-			$password = hash('sha512', $this->input->post('password').config_item('encryption_key'));
-			$remember = $this->input->post('remember');
+			$username 	= $this->input->post('username');
+			$password 	= hash('sha512', $this->input->post('password').config_item('encryption_key'));
+			$level 		= $this->input->post('level');
+			$remember 	= $this->input->post('remember');
 
-			$row = $this->AuthModel->login($username, $password)->row();
+			$row = $this->AuthModel->login($username, $password, $level)->row();
 			if ($row) {
 				if ($remember) {
 					$key = random_string('alnum', 64);
 					setcookie('dlh', $key, 3600*24*30);
 					$update = array('cookie' => $key);
 
-					$this->AuthModel->update($update, $row->id);
+					$this->AuthModel->update($update, $row->id, $level);
 				}
 
 				$response = $this->_reg_session($row);

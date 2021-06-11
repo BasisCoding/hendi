@@ -189,9 +189,9 @@
 					}
 					
 					if (data.foto == null) {
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/petugas/default.png") ?>');
+						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/default.png") ?>');
 					}else{
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/petugas/") ?>'+data.foto+'');
+						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/") ?>'+data.foto+'');
 					}
 					
 					$('#modal-updatePetugas').modal('show');

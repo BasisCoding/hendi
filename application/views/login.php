@@ -59,12 +59,25 @@
                     <input class="form-control" placeholder="Username" type="text" name="username">
                   </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group mb-3">
                   <div class="input-group input-group-merge input-group-alternative">
                     <div class="input-group-prepend">
                       <span class="input-group-text"><i class="ni ni-lock-circle-open"></i></span>
                     </div>
                     <input class="form-control" placeholder="Password" type="password" name="password">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="input-group input-group-merge input-group-alternative">
+                    <div class="input-group-prepend">
+                      <span class="input-group-text"><i class="ni ni-badge"></i></span>
+                    </div>
+                    <select name="level" class="form-control">
+                      <option value="">Level Akses</option>
+                      <option value="admin">Administrator</option>
+                      <option value="petugas">Petugas</option>
+                      <option value="pelanggan">Pelanggan</option>
+                    </select>
                   </div>
                 </div>
                 <div class="custom-control custom-control-alternative custom-checkbox">

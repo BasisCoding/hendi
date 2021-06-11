@@ -59,4 +59,6 @@ $route['petugas'] 	= 'petugas/Dashboard';
 $route['pelanggan'] = 'pelanggan/Dashboard';
 
 $route['admin/datapetugas'] = 'admin/MasterData/datapetugas';
+$route['admin/kategori'] = 'admin/MasterData/kategori';
+$route['admin/datapelanggan'] = 'admin/MasterData/datapelanggan';
 // $route['pelanggan'] = 'pelanggan/Dashboard';

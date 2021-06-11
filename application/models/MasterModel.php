@@ -46,12 +46,11 @@
 			$column_order = array(null, 'a.id', 'a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat', 'a.foto', 'a.level', 'a.status', 'a.created_at'); 
 		    $column_search = array('a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat'); //field yang diizin untuk pencarian 
 		    $order = array('a.nama_lengkap' => 'asc'); // default order 
-		    $table = 'users';
+		    $table = 'petugas';
 
 			$this->_get_datatables_query($column_order, $column_search, $order, $table);
 	        if($_POST['length'] != -1)
 	        $this->db->limit($_POST['length'], $_POST['start']);
-	    	$this->db->where('level', 2);
 
 	        $query = $this->db->get();
 	        return $query->result();
@@ -62,7 +61,7 @@
 	    	$column_order = array(null, 'a.id', 'a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat', 'a.foto', 'a.level', 'a.status', 'a.created_at'); 
 		    $column_search = array('a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat'); //field yang diizin untuk pencarian 
 		    $order = array('a.nama_lengkap' => 'asc'); // default order 
-		    $table = 'users';
+		    $table = 'petugas';
 
 	        $this->_get_datatables_query($column_order, $column_search, $order, $table);
 	        $query = $this->db->get();
@@ -71,28 +70,131 @@
 	 
 	    function count_all_petugas()
 	    {
-	        $this->db->from('users');
+	        $this->db->from('petugas');
 	        return $this->db->count_all_results();
 	    }
 	// Datatable Petugas
 
+	// Datatable Pelanggan
+
+		function get_pelanggan()
+		{
+			$column_order = array(null, 'a.id', 'a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat', 'a.foto', 'a.level', 'a.status', 'a.created_at'); 
+		    $column_search = array('a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat'); //field yang diizin untuk pencarian 
+		    $order = array('a.nama_lengkap' => 'asc'); // default order 
+		    $table = 'pelanggan';
+
+			$this->_get_datatables_query($column_order, $column_search, $order, $table);
+	        if($_POST['length'] != -1)
+	        $this->db->limit($_POST['length'], $_POST['start']);
+
+	        $query = $this->db->get();
+	        return $query->result();
+		}
+
+		function count_filtered_pelanggan()
+	    {
+	    	$column_order = array(null, 'a.id', 'a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat', 'a.foto', 'a.level', 'a.status', 'a.created_at'); 
+		    $column_search = array('a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat'); //field yang diizin untuk pencarian 
+		    $order = array('a.nama_lengkap' => 'asc'); // default order 
+		    $table = 'pelanggan';
+
+	        $this->_get_datatables_query($column_order, $column_search, $order, $table);
+	        $query = $this->db->get();
+	        return $query->num_rows();
+	    }
+	 
+	    function count_all_pelanggan()
+	    {
+	        $this->db->from('pelanggan');
+	        return $this->db->count_all_results();
+	    }
+	// Datatable Petugas
+
+	// Datatable Kategori
+	    function get_kategori()
+		{
+			$column_order = array(null, 'a.id_kategori', 'a.nama_kategori','a.jenis_kategori','a.nominal'); 
+		    $column_search = array('a.nama_kategori','a.jenis_kategori'); //field yang diizin untuk pencarian 
+		    $order = array('a.nama_kategori' => 'asc'); // default order 
+		    $table = 'kategori_pelanggan';
+
+			$this->_get_datatables_query($column_order, $column_search, $order, $table);
+	        if($_POST['length'] != -1)
+	        $this->db->limit($_POST['length'], $_POST['start']);
+
+	        $query = $this->db->get();
+	        return $query->result();
+		}
+
+		function count_filtered_kategori()
+	    {
+	    	$column_order = array(null, 'a.id_kategori', 'a.nama_kategori','a.jenis_kategori','a.nominal'); 
+		    $column_search = array('a.nama_kategori','a.jenis_kategori'); //field yang diizin untuk pencarian 
+		    $order = array('a.nama_kategori' => 'asc'); // default order 
+		    $table = 'kategori_pelanggan';
+
+	        $this->_get_datatables_query($column_order, $column_search, $order, $table);
+	        $query = $this->db->get();
+	        return $query->num_rows();
+	    }
+	 
+	    function count_all_kategori()
+	    {
+	        $this->db->from('kategori_pelanggan');
+	        return $this->db->count_all_results();
+	    }
+	// Datatable Kategori
+
+
+
+
+
 	// Model Petugas
 	    function getPetugasById($id)
 	    {
-	    	return $this->db->get_where('users', array('id' => $id));
+	    	return $this->db->get_where('petugas', array('id' => $id));
 	    }
 
 	    function addPetugas($data)
 	    {
-	    	return $this->db->insert('users', $data);
+	    	return $this->db->insert('petugas', $data);
 	    }
 
 	    function updatePetugas($id, $data)
 	    {
-	    	return $this->db->update('users', $data, array('id' => $id));
+	    	return $this->db->update('petugas', $data, array('id' => $id));
+	    }
+
+	    function deletePetugas($id)
+	    {
+	    	return $this->db->delete('petugas', array('id' => $id));
 	    }
 
 	// Model Petugas
+
+	// Model Kategori
+	    function getKategoriById($id_kategori)
+	    {
+	    	return $this->db->get_where('kategori_pelanggan', array('id_kategori' => $id_kategori));
+	    }
+
+	    function addKategori($data)
+	    {
+	    	return $this->db->insert('kategori_pelanggan', $data);
+	    }
+
+	    function updateKategori($id_kategori, $data)
+	    {
+	    	return $this->db->update('kategori_pelanggan', $data, array('id_kategori' => $id_kategori));
+	    }
+
+	    function deleteKategori($id_kategori)
+	    {
+	    	return $this->db->delete('kategori_pelanggan', array('id_kategori' => $id_kategori));
+	    }
+
+	// Model Kategori
 	}
 	
 	/* End of file MasterModel.php */

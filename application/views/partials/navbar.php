@@ -291,7 +291,7 @@
               <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                 <div class="media align-items-center">
                   <span class="avatar avatar-sm rounded-circle">
-                    <img alt="Image placeholder" src="<?= site_url('assets/assets/img/users/'.$this->session->userdata('foto')) ?>">
+                    <img alt="Image placeholder" src="<?= site_url('assets/assets/img/users/'.$this->session->userdata('link').'/'.$this->session->userdata('foto')) ?>">
                   </span>
                   <div class="media-body ml-2 d-none d-lg-block">
                     <span class="mb-0 text-sm  font-weight-bold"><?= $this->session->userdata('nama_lengkap'); ?></span>
@@ -319,7 +319,7 @@
                   <span>Support</span>
                 </a>
                 <div class="dropdown-divider"></div>
-                <a href="#!" class="dropdown-item">
+                <a href="<?= base_url('Auth/logout') ?>" class="dropdown-item">
                   <i class="ni ni-user-run"></i>
                   <span>Logout</span>
                 </a>
