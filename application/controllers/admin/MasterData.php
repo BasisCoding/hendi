@@ -7,6 +7,7 @@
 		{
 			parent::__construct();
 			$this->load->model('MasterModel');
+			$this->load->helper('upload');
 		}
 	
 	// Controller Petugas
@@ -89,17 +90,12 @@
 			$data['level'] = 2;
 			$data['status'] = 1;
 
-			$config['upload_path'] = './assets/assets/img/users/petugas';
-	        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-	        $config['max_size'] = '1024';
-	        $config['overwrite'] = true;
-	        $config['file_name'] = $data['username'];
-	        $this->load->library('upload', $config);
-
-	        if($this->upload->do_upload("foto")){
-				$data['foto'] = $this->upload->file_name;
-			} else {
-				$data['foto'] = NULL;
+			$upload = h_upload($data['username'], 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
+		
+	        if($upload){
+				$data['foto'] = $upload;
+			}else{
+				$data['foto'] = $foto_lama;
 			}
 
 			$act = $this->MasterModel->addPetugas($data);
@@ -134,15 +130,10 @@
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
 
-			$config['upload_path'] = './assets/assets/img/users/petugas';
-	        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-	        $config['max_size'] = '1024';
-	        $config['overwrite'] = true;
-	        $config['file_name'] = $username;
-	        $this->load->library('upload', $config);
-
-	        if($this->upload->do_upload("foto")){
-				$data['foto'] = $this->upload->file_name;
+			$upload = h_upload($username, 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
+		
+	        if($upload){
+				$data['foto'] = $upload;
 	        	@unlink('./assets/assets/img/users/petugas/'.$foto_lama);
 			}else{
 				$data['foto'] = $foto_lama;
@@ -221,15 +212,15 @@
 			foreach ($list as $ls) {
 
 				if ($ls->foto == NULL) {
-					$foto = 'default.png';
+					$foto = site_url('assets/assets/img/users/default.png');
 				}else{
-					$foto = $ls->foto;
+					$foto = site_url('assets/assets/img/users/pelanggan/'.$ls->foto);
 				}
 
 				$no++;
 				$row = array();
 				$row[] = $no;
-				$row[] = '<a href="'.site_url('assets/assets/img/users/'.$foto).'" target="_blank"><img src="'.site_url('assets/assets/img/users/'.$foto).'" width="20" height="20"></a>';
+				$row[] = '<a href="'.$foto.'" target="_blank"><img src="'.$foto.'" width="20" height="20"></a>';
 				$row[] = $ls->username;
 				$row[] = $ls->nama_lengkap;
 				$row[] = $ls->email;
@@ -239,6 +230,7 @@
 
 				$row[] = '
 					<div class="btn-group">
+						<button class="btn btn-warning btn-sm view-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-eye"></span></button>
 						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
 						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" data-foto="'.$ls->foto.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
 					</div>';
@@ -256,8 +248,10 @@
 			echo json_encode($output);
 		}
 
-		public function addPelangan()
+		public function addPelanggan()
 		{
+	        $this->load->library('upload');
+
 			$data['username'] = $this->input->post('username');
 			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
 			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
@@ -267,18 +261,13 @@
 			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
-			$data['level'] = 2;
+			$data['level'] = 3;
 			$data['status'] = 1;
-
-			$config['upload_path'] = './assets/assets/img/users';
-	        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-	        $config['max_size'] = '1024';
-	        $config['overwrite'] = true;
-	        $config['file_name'] = $data['username'];
-	        $this->load->library('upload', $config);
-
-	        if($this->upload->do_upload("foto")){
-				$data['foto'] = $this->upload->file_name;
+			
+			$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
+		
+	        if($foto){
+				$data['foto'] = $foto;
 			} else {
 				$data['foto'] = NULL;
 			}
@@ -301,7 +290,7 @@
 
 		}
 
-		public function updatePelangan()
+		public function updatePelanggan()
 		{
 			$id = $this->input->post('id');
 			$username = $this->input->post('username');
@@ -315,18 +304,13 @@
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
 
-			$config['upload_path'] = './assets/assets/img/users';
-	        $config['allowed_types'] = 'gif|jpg|png|jpeg';
-	        $config['max_size'] = '1024';
-	        $config['overwrite'] = true;
-	        $config['file_name'] = $username;
-	        $this->load->library('upload', $config);
-
-	        if($this->upload->do_upload("foto")){
-				$data['foto'] = $this->upload->file_name;
-	        	@unlink('./assets/assets/img/users/'.$foto_lama);
-			}else{
-				$data['foto'] = $foto_lama;
+			$foto = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
+			var_dump($foto);
+	        if($foto){
+				$data['foto'] = $foto;
+	        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
+			} else {
+				$data['foto'] = NULL;
 			}
 
 			$act = $this->MasterModel->updatePelanggan($id, $data);
@@ -347,7 +331,7 @@
 
 		}
 
-		public function deletePelangan()
+		public function deletePelanggan()
 		{
 			$id = $this->input->post('id');
 			$foto = $this->input->post('foto');
@@ -355,7 +339,7 @@
 			$act = $this->MasterModel->deletePelanggan($id);
 
 			if ($act) {
-	        	@unlink('./assets/assets/img/users/'.$foto);
+	        	@unlink('./assets/assets/img/users/pelanggan/'.$foto);
 				$response = array(
 					'type' => 'success',
 					'message' => 'Data petugas berhasil dihapus'
@@ -368,6 +352,42 @@
 			}
 
 			echo json_encode($response);
+		}
+
+		public function updateFileMOU()
+		{
+			$id 			= $this->input->post('id');
+			$data['id_kategori'] = $this->input->post('id_kategori');
+			$file_mou_lama	= $this->input->post('file_mou_lama');
+			$username 		= $this->input->post('username');
+			
+			$file 			= h_upload($username, 'assets/assets/file', 'pdf|doc|docx', '1024', 'file_mou');
+
+	        if($file){
+				$data['file_mou'] = $file;
+				if ($file_mou_lama != '') {
+					@unlink('./assets/assets/file/'.$file_mou_lama);
+				}
+			} else {
+				$data['file_mou'] = NULL;
+			}
+
+			$act = $this->MasterModel->updatePelanggan($id, $data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data MOU berhasil dikirim'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data MOU gagal dikirim'
+				);
+			}
+
+			echo json_encode($response);
+
 		}
 	// Controller Petugas
 
@@ -492,6 +512,12 @@
 			}
 
 			echo json_encode($response);
+		}
+
+		public function showSelectKategori()
+		{
+			$list = $this->MasterModel->showSelectKategori()->result();
+			echo json_encode($list);
 		}
 	// Controller Kategori
 	

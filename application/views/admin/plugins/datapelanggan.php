@@ -3,10 +3,11 @@
 
 	var table;
 	$(document).ready(function() {
-		
-		 // $('#table-petugas').scrollbar();
 
-		table = $('#table-petugas').DataTable({
+		showKategori();		
+		 // $('#table-pelanggan').scrollbar();
+
+		table = $('#table-pelanggan').DataTable({
 			"processing": true, 
             "serverSide": true,
             "scrollX": true,
@@ -20,7 +21,7 @@
             "autoWidth" : true,
              
             "ajax": {
-                "url": "<?= base_url('admin/MasterData/get_petugas')?>",
+                "url": "<?= base_url('admin/MasterData/get_pelanggan')?>",
                 "type": "POST"
             },
 
@@ -42,12 +43,48 @@
 			table.ajax.reload();
 		}
 
+		function showKategori() {
+			var kategori = $('.id_kategori');
+			$.ajax({
+				url: '<?= base_url("admin/MasterData/showSelectKategori") ?>',
+				type: 'POST',
+				dataType: 'JSON',
+				success:function (data) {
+					$('[data-toggle="select"]').select2({
+						placeholder:'Jenis Pelanggan'
+					});
+
+					var html = '';
+					var i;
+						html += '<option></option>';
+					for (var i = 0; i < data.length; i++) {
+						html += '<option value="'+data[i].id_kategori+'">'+data[i].nama_kategori+'</option>';
+					}
+
+					kategori.html(html);
+				}
+			});
+			
+		}
+
 		function bacaGambar(input) {
 		   if (input.files && input.files[0]) {
 		      var reader = new FileReader();
 		 
 		      reader.onload = function (e) {
 		          $('.foto-preview').attr('src', e.target.result);
+		      }
+		 
+		      reader.readAsDataURL(input.files[0]);
+		   }
+		}
+
+		function bacaFile(input) {
+		   if (input.files && input.files[0]) {
+		      var reader = new FileReader();
+		 
+		      reader.onload = function (e) {
+		          $('.file-preview').attr('src', e.target.result);
 		      }
 		 
 		      reader.readAsDataURL(input.files[0]);
@@ -93,8 +130,16 @@
 		$("#foto_update").change(function(){
 		   bacaGambar(this);
 		});
+
+		$("#fileMOU").change(function(){
+		   bacaFile(this);
+		});
+
+		$("#fileMOUUpdate").change(function(){
+		   bacaFile(this);
+		});
 		
-		$('#form-addPetugas').submit(function() {
+		$('#form-addPelanggan').submit(function() {
 			
 			if ($('[name="konf_password"]').val() != $('[name="password"]').val()) {
             	$('.notSamePassword').removeAttr('hidden');
@@ -112,16 +157,18 @@
 	            formData.append('tempat_lahir', $('[name="tempat_lahir"]').val()); 
 	            formData.append('tanggal_lahir', $('[name="tanggal_lahir"]').val()); 
 	            formData.append('alamat', $('[name="alamat"]').val()); 
+	            formData.append('id_kategori', $('[name="id_kategori"]').val()); 
 
 	            formData.append('foto', $('[name="foto"]')[0].files[0]);
-            	actionData(formData, 'addPetugas');
+	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
+            	actionData(formData, 'addPelanggan');
             	reload_table();
 
             	return false;
             }
 		});
 
-		$('#form-updatePetugas').submit(function() {
+		$('#form-updatePelanggan').submit(function() {
 			
 			var formData = new FormData();
 	            formData.append('id', $('[name="id_update"]').val()); 
@@ -136,42 +183,57 @@
 	            formData.append('foto_lama', $('[name="foto_lama"]').val()); 
 
 	            formData.append('foto', $('[name="foto_update"]')[0].files[0]);
-            	actionData(formData, 'updatePetugas');
+            	actionData(formData, 'updatePelanggan');
             	reload_table();
 
             	return false;
 		});
 
-		$('#table-data-petugas').on('click', '.delete-data', function() {
+		$('#form-updateFileMOU').submit(function() {
+			var formData = new FormData();
+	            formData.append('id', $('[name="id"]').val()); 
+	            formData.append('username', $('[name="username"]').val()); 
+	            formData.append('id_kategori', $('[name="id_kategori"]').val()); 
+	            formData.append('file_mou_lama', $('[name="file_mou_lama"]').val()); 
+	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
+
+	            actionData(formData, 'updateFileMOU');
+            	reload_table();
+
+            	return false;
+		});
+
+		$('#table-data-pelanggan').on('click', '.delete-data', function() {
 			var id = $(this).attr('data-id');
 			var nama = $(this).attr('data-nama');
 			var foto = $(this).attr('data-foto');
 			
-			$('#petugas-delete').html(nama);
-			$('[name="id_petugas_delete"]').val(id);
+			$('#pelanggan-delete').html(nama);
+			$('[name="id_pelanggan_delete"]').val(id);
 			$('[name="foto_delete"]').val(foto);
 
-			$('#modal-deletePetugas').modal('show');
+			$('#modal-deletePelanggan').modal('show');
 		});
 
-		$('#form-deletePetugas').submit(function() {
+		$('#form-deletePelanggan').submit(function() {
 			var formData = new FormData();
-            formData.append('id', $('[name="id_petugas_delete"]').val()); 
+            formData.append('id', $('[name="id_pelanggan_delete"]').val()); 
             formData.append('foto', $('[name="foto_delete"]').val()); 
-			actionData(formData, 'deletePetugas');
+			actionData(formData, 'deletePelanggan');
         	reload_table();
 
         	return false;
 		});
 
-		$('#table-data-petugas').on('click', '.edit-data', function() {
+		$('#table-data-pelanggan').on('click', '.edit-data', function() {
 			var id = $(this).attr('data-id');
 			$.ajax({
-				url: '<?= base_url("admin/MasterData/getPetugasById") ?>',
+				url: '<?= base_url("admin/MasterData/getPelangganById") ?>',
 				type: 'GET',
 				dataType: 'JSON',
 				data:{id:id},
 				success:function (data) {
+					
 					$('[name="id_update"]').val(id);
 					$('[name="nama_lengkap_update"]').val(data.nama_lengkap);
 					$('[name="username_update"]').val(data.username);
@@ -181,6 +243,8 @@
 					$('[name="tanggal_lahir_update"]').val(data.tanggal_lahir);
 					$('[name="alamat_update"]').val(data.alamat);
 					$('[name="foto_lama"]').val(data.foto);
+					$('[name="file_mou_lama"]').val(data.file_mou);
+					$('[name="id_kategori_update"]').val(data.id_kategori);
 					
 					if(data.jenis_kelamin == 'L'){
 						$('#laki-laki_update').prop('checked', true);
@@ -191,10 +255,42 @@
 					if (data.foto == null) {
 						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/default.png") ?>');
 					}else{
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/") ?>'+data.foto+'');
+						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/pelanggan/") ?>'+data.foto+'');
+					}
+
+					if (data.file_mou == null) {
+						$('.file-preview').attr('src', null);
+					}else{
+						$('.file-preview').attr('src', '<?= base_url("assets/assets/file/") ?>'+data.file_mou+'');
 					}
 					
-					$('#modal-updatePetugas').modal('show');
+					$('#modal-updatePelanggan').modal('show');
+				}
+			});
+		});
+
+		$('#table-data-pelanggan').on('click', '.view-data', function() {
+			var id 			= $(this).attr('data-id');
+			var username 	= $(this).attr('data-username');
+			$.ajax({
+				url: '<?= base_url("admin/MasterData/getPelangganById") ?>',
+				type: 'GET',
+				dataType: 'JSON',
+				data:{id:id},
+				success:function (data) {
+					
+					$('[name="id"]').val(id);
+					$('[name="username"]').val(username);
+					$('[name="id_kategori"]').val(data.id_kategori);
+
+					if (data.file_mou == null) {
+						$('.file-preview').attr('src', null);
+					}else{
+						$('[name="file_mou_update"]').val(data.file_mou);
+						$('.file-preview').attr('src', '<?= base_url("assets/assets/file/")?>'+data.file_mou);
+					}
+					
+					$('#modal-updateFileMOU').modal('show');
 				}
 			});
 		});
@@ -207,6 +303,8 @@
 <script src="<?= site_url('assets/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/dataTables.responsive.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') ?>"></script>
+<script src="<?= site_url('assets/assets/vendor/select2/dist/js/select2.min.js') ?>"></script>
+
 <script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.print.min.js') ?>"></script>

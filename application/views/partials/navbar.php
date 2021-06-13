@@ -38,7 +38,7 @@
                             <?php 
                                 foreach ($sub_menu->result() as $sb) {?>
                                   <li class="nav-item">
-                                    <a href="<?= $this->session->userdata('link').'/'.$sb->link ?>" class="nav-link"><?= $sb->nama_menu ?></a>
+                                    <a href="<?= base_url($this->session->userdata('link').'/'.$sb->link) ?>" class="nav-link"><?= $sb->nama_menu ?></a>
                                   </li>  
                             <?php } ?>       
                           </ul>
@@ -46,7 +46,7 @@
                       </li>
                   <?php }else{ ?>
                   <li class="nav-item">
-                    <a class="nav-link" href="<?= $this->session->userdata('link').'/'.$mn->link ?>">
+                    <a class="nav-link" href="<?= base_url($this->session->userdata('link').'/'.$mn->link) ?>">
                       <i class="ni ni-<?= $mn->icon .' '.$mn->color?>"></i>
                       <span class="nav-link-text"><?= $mn->nama_menu ?></span>
                     </a>

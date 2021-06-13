@@ -173,6 +173,29 @@
 
 	// Model Petugas
 
+	// Model Petugas
+	    function getPelangganById($id)
+	    {
+	    	return $this->db->get_where('pelanggan', array('id' => $id));
+	    }
+
+	    function addPelanggan($data)
+	    {
+	    	return $this->db->insert('pelanggan', $data);
+	    }
+
+	    function updatePelanggan($id, $data)
+	    {
+	    	return $this->db->update('pelanggan', $data, array('id' => $id));
+	    }
+
+	    function deletePelanggan($id)
+	    {
+	    	return $this->db->delete('pelanggan', array('id' => $id));
+	    }
+
+	// Model Petugas
+
 	// Model Kategori
 	    function getKategoriById($id_kategori)
 	    {
@@ -192,6 +215,11 @@
 	    function deleteKategori($id_kategori)
 	    {
 	    	return $this->db->delete('kategori_pelanggan', array('id_kategori' => $id_kategori));
+	    }
+
+	    function showSelectKategori()
+	    {
+	    	return $this->db->get('kategori_pelanggan');
 	    }
 
 	// Model Kategori
