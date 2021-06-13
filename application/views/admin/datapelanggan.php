@@ -156,29 +156,6 @@
                         </div>  
                       </div>
 
-                      <!-- <div class="col-md-4">
-                        <label class="h5">Data MOU</label>
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label class="h5" for="fileMOU" class="text-center">
-                                <a class="btn btn-danger btn-sm text-white" rel="nofollow" style="cursor: pointer;"><span class="ni ni-single-copy-04"></span> Pilih File</a>
-                              </label>
-                                <input type="file" id="fileMOU" name="file_mou" style="display: none;">
-                            </div>
-                          </div>
-
-                          <div class="col-md">
-                            <select class="form-control form-control-sm id_kategori" data-toggle="select" name="id_kategori">
-                              
-                            </select>
-                          </div>
-                        </div> -->
-
-                        <div class="form-group">
-                          <embed type="application/pdf" src="" class="file-preview" width="100%" height="350"></embed>
-                        </div>
-                      </div>
                     </div>
                     
                   </form> 
@@ -279,31 +256,7 @@
                         </div>  
                         <input type="hidden" name="foto_lama">
                       </div>
-                    <!-- 
-                      <div class="col-md-4">
-                        <label class="h5">Data MOU</label>
-                        <div class="row">
-                          <div class="col-md-4">
-                            <div class="form-group">
-                              <label class="h5" for="fileMOU" class="text-center">
-                                <a class="btn btn-danger btn-sm text-white" rel="nofollow" style="cursor: pointer;"><span class="ni ni-single-copy-04"></span> Pilih File</a>
-                              </label>
-                              <input type="file" id="fileMOUUpdate" name="file_mou_update" style="display: none;">
-                            </div>
-                          </div>
-                          <input type="hidden" name="file_mou_lama">
-
-                          <div class="col-md">
-                            <select class="form-control form-control-sm id_kategori" data-toggle="select" name="id_kategori_update">
-                              
-                            </select>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <embed type="application/pdf" src="" class="file-preview" width="100%" height="350"></embed>
-                        </div>
-                      </div> -->
+                    
                     </div>
                     
                   </form> 
@@ -381,7 +334,7 @@
                     </div>
 
                     <div class="form-group">
-                      <embed type="application/pdf" class="file-preview" width="100%" height="500"></embed>
+                      <iframe class="file-preview" width="100%" height="500" frameborder="0" scrolling="no"></iframe>
                     </div>
 
                   </form> 

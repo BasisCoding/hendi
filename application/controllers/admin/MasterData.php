@@ -305,7 +305,7 @@
 			$data['alamat'] = $this->input->post('alamat');
 
 			$foto = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
-			var_dump($foto);
+
 	        if($foto){
 				$data['foto'] = $foto;
 	        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
@@ -356,20 +356,20 @@
 
 		public function updateFileMOU()
 		{
-			$id 			= $this->input->post('id');
-			$data['id_kategori'] = $this->input->post('id_kategori');
-			$file_mou_lama	= $this->input->post('file_mou_lama');
-			$username 		= $this->input->post('username');
+			$id 					= $this->input->post('id');
+			$data['id_kategori'] 	= $this->input->post('id_kategori');
+			$file_mou_lama			= $this->input->post('file_mou_lama');
+			$username 				= $this->input->post('username');
 			
-			$file 			= h_upload($username, 'assets/assets/file', 'pdf|doc|docx', '1024', 'file_mou');
+			if (!empty($_FILES['file_mou']['name'])) {
+				$file = h_upload($username, 'assets/assets/file', 'pdf|doc|docx', '1024', 'file_mou');
 
-	        if($file){
-				$data['file_mou'] = $file;
-				if ($file_mou_lama != '') {
+		        if($file){
+					$data['file_mou'] = $file;
 					@unlink('./assets/assets/file/'.$file_mou_lama);
+				} else {
+					$data['file_mou'] = NULL;
 				}
-			} else {
-				$data['file_mou'] = NULL;
 			}
 
 			$act = $this->MasterModel->updatePelanggan($id, $data);

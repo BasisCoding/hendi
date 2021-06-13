@@ -157,7 +157,6 @@
 	            formData.append('tempat_lahir', $('[name="tempat_lahir"]').val()); 
 	            formData.append('tanggal_lahir', $('[name="tanggal_lahir"]').val()); 
 	            formData.append('alamat', $('[name="alamat"]').val()); 
-	            formData.append('id_kategori', $('[name="id_kategori"]').val()); 
 
 	            formData.append('foto', $('[name="foto"]')[0].files[0]);
 	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
@@ -243,8 +242,6 @@
 					$('[name="tanggal_lahir_update"]').val(data.tanggal_lahir);
 					$('[name="alamat_update"]').val(data.alamat);
 					$('[name="foto_lama"]').val(data.foto);
-					$('[name="file_mou_lama"]').val(data.file_mou);
-					$('[name="id_kategori_update"]').val(data.id_kategori);
 					
 					if(data.jenis_kelamin == 'L'){
 						$('#laki-laki_update').prop('checked', true);
@@ -258,12 +255,6 @@
 						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/pelanggan/") ?>'+data.foto+'');
 					}
 
-					if (data.file_mou == null) {
-						$('.file-preview').attr('src', null);
-					}else{
-						$('.file-preview').attr('src', '<?= base_url("assets/assets/file/") ?>'+data.file_mou+'');
-					}
-					
 					$('#modal-updatePelanggan').modal('show');
 				}
 			});
@@ -281,7 +272,7 @@
 					
 					$('[name="id"]').val(id);
 					$('[name="username"]').val(username);
-					$('[name="id_kategori"]').val(data.id_kategori);
+					$('[name="id_kategori"]').val(data.id_kategori).trigger('change');
 
 					if (data.file_mou == null) {
 						$('.file-preview').attr('src', null);
