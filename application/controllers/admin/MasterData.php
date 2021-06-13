@@ -202,6 +202,31 @@
 			echo json_encode($data);
 		}
 
+		public function create_qrcode($username)
+		{
+			$this->load->library('ciqrcode'); //pemanggilan library QR CODE
+ 
+	        $config['cacheable']    = true; //boolean, the default is true
+	        $config['cachedir']     = './assets/assets/img/'; //string, the default is application/cache/
+	        $config['errorlog']     = './assets/assets/img/'; //string, the default is application/logs/
+	        $config['imagedir']     = './assets/assets/img/qrcode/'; //direktori penyimpanan qr code
+	        $config['quality']      = true; //boolean, the default is true
+	        $config['size']         = '1024'; //interger, the default is 1024
+	        $config['black']        = array(224,255,255); // array, default is array(255,255,255)
+	        $config['white']        = array(70,130,180); // array, default is array(0,0,0)
+	        $this->ciqrcode->initialize($config);
+	 
+	        $image_name=$username.'.png'; //buat name dari qr code sesuai dengan username
+	 
+	        $params['data'] = $username; //data yang akan di jadikan QR CODE
+	        $params['level'] = 'H'; //H=High
+	        $params['size'] = 10;
+	        $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
+	        $this->ciqrcode->generate($params);
+
+	        return $image_name;
+		}
+
 		public function get_pelanggan()
 		{
 			$list = $this->MasterModel->get_pelanggan();
@@ -232,7 +257,7 @@
 					<div class="btn-group">
 						<button class="btn btn-warning btn-sm view-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-eye"></span></button>
 						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
-						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" data-foto="'.$ls->foto.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" data-foto="'.$ls->foto.'" data-file_mou="'.$ls->file_mou.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
 					</div>';
 
 				$data[] = $row;
@@ -250,8 +275,6 @@
 
 		public function addPelanggan()
 		{
-	        $this->load->library('upload');
-
 			$data['username'] = $this->input->post('username');
 			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
 			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
@@ -261,30 +284,40 @@
 			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
+			$data['qrcode'] = $this->create_qrcode($data['username']);
 			$data['level'] = 3;
 			$data['status'] = 1;
-			
-			$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
-		
-	        if($foto){
-				$data['foto'] = $foto;
-			} else {
-				$data['foto'] = NULL;
-			}
 
-			$act = $this->MasterModel->addPelanggan($data);
-
-			if ($act) {
-				$response = array(
-					'type' => 'success',
-					'message' => 'Data petugas berhasil dikirim'
-				);
-			}else{
+			$validate = $this->MasterModel->getPelangganByUsername($data['username']);
+			if ($validate->num_rows() > 0) {
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Petugas gagal dikirim'
+					'message' => 'Username sudah tersedia silahkan coba lagi !!'
 				);
+			}else{
+				$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
+			
+		        if($foto){
+					$data['foto'] = $foto;
+				} else {
+					$data['foto'] = NULL;
+				}
+
+				$act = $this->MasterModel->addPelanggan($data);
+
+				if ($act) {
+					$response = array(
+						'type' => 'success',
+						'message' => 'Data petugas berhasil dikirim'
+					);
+				}else{
+					$response = array(
+						'type' => 'danger',
+						'message' => 'Data Petugas gagal dikirim'
+					);
+				}
 			}
+			
 
 			echo json_encode($response);
 
@@ -334,12 +367,11 @@
 		public function deletePelanggan()
 		{
 			$id = $this->input->post('id');
-			$foto = $this->input->post('foto');
+			$data['status'] = 0;
 
-			$act = $this->MasterModel->deletePelanggan($id);
+			$act = $this->MasterModel->updatePelanggan($id, $data);
 
 			if ($act) {
-	        	@unlink('./assets/assets/img/users/pelanggan/'.$foto);
 				$response = array(
 					'type' => 'success',
 					'message' => 'Data petugas berhasil dihapus'
@@ -358,6 +390,7 @@
 		{
 			$id 					= $this->input->post('id');
 			$data['id_kategori'] 	= $this->input->post('id_kategori');
+			$data['tanggal_mou'] 	= $this->input->post('tanggal_mou');
 			$file_mou_lama			= $this->input->post('file_mou_lama');
 			$username 				= $this->input->post('username');
 			
@@ -389,7 +422,7 @@
 			echo json_encode($response);
 
 		}
-	// Controller Petugas
+	// Controller Pelanggan
 
 	// Controller Kategori
 		public function kategori()

@@ -40,7 +40,7 @@
 		});
 
 		function reload_table() {
-			table.ajax.reload();
+			table.ajax.reload(null, false);
 		}
 
 		function showKategori() {
@@ -105,10 +105,11 @@
 	                    message:response.message
 	                },{
 	                    type:response.type,
+	                    z_index:2000,
 	                    placement: {
 	                      from: "top",
 	                      align: "right"
-	                },
+	                	},
 	                    animate: {
 	                      enter: 'animated fadeInDown',
 	                      exit: 'animated fadeOutUp'
@@ -159,7 +160,6 @@
 	            formData.append('alamat', $('[name="alamat"]').val()); 
 
 	            formData.append('foto', $('[name="foto"]')[0].files[0]);
-	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
             	actionData(formData, 'addPelanggan');
             	reload_table();
 
@@ -190,9 +190,10 @@
 
 		$('#form-updateFileMOU').submit(function() {
 			var formData = new FormData();
-	            formData.append('id', $('[name="id"]').val()); 
-	            formData.append('username', $('[name="username"]').val()); 
-	            formData.append('id_kategori', $('[name="id_kategori"]').val()); 
+	            formData.append('id', $('[name="id_mou"]').val()); 
+	            formData.append('username', $('[name="username_mou"]').val()); 
+	            formData.append('id_kategori', $('[name="id_kategori_mou"]').val()); 
+	            formData.append('tanggal_mou', $('[name="tanggal_mou"]').val()); 
 	            formData.append('file_mou_lama', $('[name="file_mou_lama"]').val()); 
 	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
 
@@ -202,26 +203,29 @@
             	return false;
 		});
 
-		$('#table-data-pelanggan').on('click', '.delete-data', function() {
-			var id = $(this).attr('data-id');
-			var nama = $(this).attr('data-nama');
-			var foto = $(this).attr('data-foto');
-			
-			$('#pelanggan-delete').html(nama);
-			$('[name="id_pelanggan_delete"]').val(id);
-			$('[name="foto_delete"]').val(foto);
-
-			$('#modal-deletePelanggan').modal('show');
-		});
-
 		$('#form-deletePelanggan').submit(function() {
 			var formData = new FormData();
             formData.append('id', $('[name="id_pelanggan_delete"]').val()); 
-            formData.append('foto', $('[name="foto_delete"]').val()); 
+            formData.append('file', $('[name="foto_delete"]').val()); 
+            formData.append('file_mou', $('[name="file_mou_delete"]').val()); 
 			actionData(formData, 'deletePelanggan');
         	reload_table();
 
         	return false;
+		});
+
+		$('#table-data-pelanggan').on('click', '.delete-data', function() {
+			var id = $(this).attr('data-id');
+			var nama = $(this).attr('data-nama');
+			var foto = $(this).attr('data-foto');
+			var file_mou = $(this).attr('data-file_mou');
+			
+			$('#pelanggan-delete').html(nama);
+			$('[name="id_pelanggan_delete"]').val(id);
+			$('[name="foto_delete"]').val(foto);
+			$('[name="file_mou_delete"]').val(file_mou);
+
+			$('#modal-deletePelanggan').modal('show');
 		});
 
 		$('#table-data-pelanggan').on('click', '.edit-data', function() {
@@ -270,12 +274,13 @@
 				data:{id:id},
 				success:function (data) {
 					
-					$('[name="id"]').val(id);
-					$('[name="username"]').val(username);
-					$('[name="id_kategori"]').val(data.id_kategori).trigger('change');
+					$('[name="id_mou"]').val(id);
+					$('[name="username_mou"]').val(username);
+					$('[name="tanggal_mou"]').val(data.tanggal_mou);
+					$('[name="id_kategori_mou"]').val(data.id_kategori).trigger('change');
 
 					if (data.file_mou == null) {
-						$('.file-preview').attr('src', null);
+						$('.file-preview').attr('src', '');
 					}else{
 						$('[name="file_mou_update"]').val(data.file_mou);
 						$('.file-preview').attr('src', '<?= base_url("assets/assets/file/")?>'+data.file_mou);

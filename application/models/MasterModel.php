@@ -87,6 +87,7 @@
 			$this->_get_datatables_query($column_order, $column_search, $order, $table);
 	        if($_POST['length'] != -1)
 	        $this->db->limit($_POST['length'], $_POST['start']);
+	    	$this->db->where('status', 1);
 
 	        $query = $this->db->get();
 	        return $query->result();
@@ -100,6 +101,7 @@
 		    $table = 'pelanggan';
 
 	        $this->_get_datatables_query($column_order, $column_search, $order, $table);
+	    	$this->db->where('status', 1);
 	        $query = $this->db->get();
 	        return $query->num_rows();
 	    }
@@ -107,6 +109,7 @@
 	    function count_all_pelanggan()
 	    {
 	        $this->db->from('pelanggan');
+	    	$this->db->where('status', 1);
 	        return $this->db->count_all_results();
 	    }
 	// Datatable Petugas
@@ -177,6 +180,11 @@
 	    function getPelangganById($id)
 	    {
 	    	return $this->db->get_where('pelanggan', array('id' => $id));
+	    }
+
+	    function getPelangganByUsername($username)
+	    {
+	    	return $this->db->get_where('pelanggan', array('username' => $username));	
 	    }
 
 	    function addPelanggan($data)

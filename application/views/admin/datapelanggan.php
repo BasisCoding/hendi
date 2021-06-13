@@ -286,6 +286,7 @@
                 <form class="form" id="form-deletePelanggan" method="POST">
                   <input type="hidden" name="id_pelanggan_delete">
                   <input type="hidden" name="foto_delete">
+                  <input type="hidden" name="file_mou_delete">
                 </form>
               </div>
             </div>
@@ -310,10 +311,10 @@
 
                 <div class="modal-body">
                   <form class="form" id="form-updateFileMOU" method="POST" enctype="multipart/form-data">
-                    <input type="hidden" name="id">
-                    <input type="hidden" name="username">
+                    <input type="hidden" name="id_mou">
+                    <input type="hidden" name="username_mou">
                     <div class="row mb-1">
-                      <div class="col-md-4">
+                      <div class="col-md-2">
                         <label class="h5">File MOU</label>
                         <div class="form-group">
                           <label class="h5" for="fileMOU" class="text-center">
@@ -326,8 +327,13 @@
                       </div>
 
                       <div class="col-md">
-                        <label>Jenis Pelanggan</label>
-                        <select class="form-control form-control-sm id_kategori" data-toggle="select" name="id_kategori">
+                        <label class="h5">Tanggal MOU</label>
+                        <input type="date" name="tanggal_mou" class="form-control form-control-sm">
+                      </div>
+
+                      <div class="col-md">
+                        <label class="h5">Jenis Pelanggan</label>
+                        <select class="form-control form-control-sm id_kategori" data-toggle="select" name="id_kategori_mou">
                           
                         </select>
                       </div>
