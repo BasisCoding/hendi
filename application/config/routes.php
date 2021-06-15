@@ -53,12 +53,17 @@ $route['default_controller'] = 'Auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['logout'] = 'Auth/logout';
+$route['logout'] 	= 'Auth/logout';
 $route['admin'] 	= 'admin/Dashboard';
 $route['petugas'] 	= 'petugas/Dashboard';
 $route['pelanggan'] = 'pelanggan/Dashboard';
 
-$route['admin/datapetugas'] = 'admin/MasterData/datapetugas';
-$route['admin/kategori'] = 'admin/MasterData/kategori';
-$route['admin/datapelanggan'] = 'admin/MasterData/datapelanggan';
-// $route['pelanggan'] = 'pelanggan/Dashboard';
+$route['admin/datapetugas'] 	= 'admin/MasterData/datapetugas';
+$route['admin/kategori'] 		= 'admin/MasterData/kategori';
+$route['admin/datapelanggan'] 	= 'admin/MasterData/datapelanggan';
+
+
+$route['petugas/profile'] 		= 'petugas/Profile';
+$route['petugas/pembayaran'] 	= 'petugas/Pembayaran';
+$route['petugas/laporan'] 		= 'petugas/Laporan';
+
