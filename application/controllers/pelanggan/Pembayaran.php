@@ -7,7 +7,7 @@
 		{
 			parent::__construct();
 			$this->load->model('PembayaranModel');
-			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 1) {
+			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 3) {
 				redirect('Auth','refresh');
 			}
 		}
@@ -20,40 +20,42 @@
 			$this->load->view('partials/head', $def);
 			$this->load->view('partials/navbar');
 			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('admin/datapembayaran');
+			$this->load->view('pelanggan/datapembayaran');
 			$this->load->view('partials/footer');
-			$this->load->view('admin/plugins/datapembayaran');		
+			$this->load->view('pelanggan/plugins/datapembayaran');		
 		}
 
 		public function get_pembayaran()
 		{
-			$id = null;
-			$list = $this->PembayaranModel->get_pembayaran($id);
+			$dt['id_pelanggan'] = $this->session->userdata('id');
+			$list = $this->PembayaranModel->get_pembayaran($dt);
 			// echo $this->db->last_query($list);
 			$data = array();
 			$no = $_POST['start'];
 
 			foreach ($list as $ls) {
 				
+				$no++;
 				$row = array();
 				$row[] = $ls->no_invoice;
-				$row[] = $ls->nama_pelanggan;
-				$row[] = $ls->nama_kategori;
 				$row[] = $ls->nama_petugas;
 				$row[] = $ls->tanggal_bayar;
+				$row[] = 'Ke - '.$no;
 
 				$data[] = $row;
 			}
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->PembayaranModel->count_all_pembayaran(),
-	            "recordsFiltered" => $this->PembayaranModel->count_filtered_pembayaran(),
+	            "recordsTotal" => $this->PembayaranModel->count_all_pembayaran($dt),
+	            "recordsFiltered" => $this->PembayaranModel->count_filtered_pembayaran($dt),
 	            "data" => $data
 			);
 
 			echo json_encode($output);
 		}
+
+		
 	
 	}
 	

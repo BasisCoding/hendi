@@ -177,6 +177,7 @@
 	// Model Petugas
 
 	// Model Petugas
+
 	    function getPelangganById($id)
 	    {
 	    	return $this->db->get_where('pelanggan', array('id' => $id));
@@ -184,7 +185,10 @@
 
 	    function getPelangganByUsername($username)
 	    {
-	    	return $this->db->get_where('pelanggan', array('username' => $username));	
+	    	$this->db->select('*');
+	    	$this->db->join('kategori_pelanggan', 'pelanggan.id_kategori = kategori_pelanggan.id_kategori', 'left');
+	    	$this->db->where('username', $username);
+	    	return $this->db->get('pelanggan');	
 	    }
 
 	    function addPelanggan($data)

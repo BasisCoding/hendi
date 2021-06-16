@@ -3,14 +3,14 @@
 	
 	class PembayaranModel extends CI_Model {
 
-			var $column_order = array(null, 'a.nama_lengkap as nama_pelanggan','b.nama_lengkap as nama_petugas','c.no_invoice', 'c.tanggal_bayar', 'd.nama_kategori'); 
-		    var $column_search = array('a.nama_lengkap as nama_pelanggan','b.nama_lengkap as nama_petugas','c.no_invoice', 'c.tanggal_bayar', 'd.nama_kategori'); //field yang diizin untuk pencarian 
+			var $column_order = array(null, 'a.nama_lengkap','b.nama_lengkap','c.no_invoice', 'c.tanggal_bayar', 'd.nama_kategori'); 
+		    var $column_search = array('a.nama_lengkap','b.nama_lengkap','c.no_invoice', 'c.tanggal_bayar', 'd.nama_kategori'); //field yang diizin untuk pencarian 
 		    var $order = array('c.tanggal_bayar' => 'desc'); // default order 
 		
 		// Datatable
 			private function _get_datatables_query()
 			{
-				$this->db->select($this->column_order);
+				$this->db->select('a.nama_lengkap as nama_pelanggan, b.nama_lengkap as nama_petugas, c.no_invoice, c.tanggal_bayar, d.nama_kategori');
 				$this->db->from('pembayaran as c');
 	 			$this->db->join('pelanggan as a', 'a.id = c.id_pelanggan', 'left');
 	 			$this->db->join('petugas as b', 'b.id = c.id_petugas', 'left');
@@ -46,26 +46,30 @@
 		        }
 			}
 
-			function get_pembayaran()
+			function get_pembayaran($data)
 			{
 				$this->_get_datatables_query();
 		        if($_POST['length'] != -1)
 		        $this->db->limit($_POST['length'], $_POST['start']);
-		    	
+		    	$this->db->where($data);
+
 		        $query = $this->db->get();
 		        return $query->result();
 			}
 
-			function count_filtered_pembayaran()
+			function count_filtered_pembayaran($data)
 		    {
 		        $this->_get_datatables_query();
+		    	$this->db->where($data);
+
 		        $query = $this->db->get();
 		        return $query->num_rows();
 		    }
 		 
-		    function count_all_pembayaran()
+		    function count_all_pembayaran($data)
 		    {
 		        $this->db->from('pembayaran');
+		    	$this->db->where($data);
 		        return $this->db->count_all_results();
 		    }
 		// Datatable

@@ -8,6 +8,9 @@
 			parent::__construct();
 			$this->load->model('MasterModel');
 			$this->load->helper('upload');
+			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 1) {
+				redirect('Auth','refresh');
+			}
 		}
 	
 	// Controller Petugas

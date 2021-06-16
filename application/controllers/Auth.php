@@ -89,6 +89,12 @@
 			$this->session->sess_destroy();
 			redirect('Auth','refresh');
 		}
+
+		public function create_password()
+		{
+			$password 	= hash('sha512', 'pelanggan'.config_item('encryption_key'));
+			echo $password;
+		}
 	
 	}
 	

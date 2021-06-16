@@ -6,7 +6,7 @@
 		public function __construct()
 		{
 			parent::__construct();
-			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 2) {
+			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 3) {
 				redirect('Auth','refresh');
 			}
 		}
@@ -19,13 +19,13 @@
 			$this->load->view('partials/head', $def);
 			$this->load->view('partials/navbar');
 			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('petugas/dashboard');
+			$this->load->view('pelanggan/dashboard');
 			$this->load->view('partials/footer');
-			$this->load->view('petugas/plugins/dashboard');
+			$this->load->view('pelanggan/plugins/dashboard');
 		}
 	
 	}
 	
 	/* End of file Dashboard.php */
-	/* Location: ./application/controllers/petugas/Dashboard.php */
+	/* Location: ./application/controllers/pelanggan/Dashboard.php */
 ?>

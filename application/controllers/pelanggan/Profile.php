@@ -8,7 +8,7 @@
 			parent::__construct();
 			$this->load->model('MasterModel');
 			$this->load->helper('upload');
-			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 2) {
+			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 3) {
 				redirect('Auth','refresh');
 			}
 		}
@@ -21,15 +21,15 @@
 			$this->load->view('partials/head', $def);
 			$this->load->view('partials/navbar');
 			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('petugas/profile');
+			$this->load->view('pelanggan/profile');
 			$this->load->view('partials/footer');
-			$this->load->view('petugas/plugins/profile');
+			$this->load->view('pelanggan/plugins/profile');
 		}
 
 		public function get_profile()
 		{
 			$id = $this->session->userdata('id');
-			$get = $this->MasterModel->getPetugasById($id)->row();
+			$get = $this->MasterModel->getPelangganById($id)->row();
 			
 			$tanggal = new DateTime(date('Y', strtotime($get->tanggal_lahir)));
 
@@ -72,7 +72,7 @@
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
 
-			$act = $this->MasterModel->updatePetugas($id, $data);
+			$act = $this->MasterModel->updatePelanggan($id, $data);
 
 			if ($act) {
 				$response = array(
@@ -94,7 +94,6 @@
 			}
 
 			echo json_encode($response);
-
 		}
 
 		public function updateFoto()
@@ -103,18 +102,18 @@
 			$foto_lama = $this->input->post('foto_lama');
 			$username = $this->session->userdata('username');
 
-			$upload = h_upload($username, 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
+			$upload = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
 			
 			if (!empty($_FILES['foto']['name'])) {
 		        if($upload){
 					$data['foto'] = $upload;
-		        	@unlink('./assets/assets/img/users/petugas/'.$foto_lama);
+		        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
 				}else{
 					$data['foto'] = $foto_lama;
 				}
 			}
 
-			$act = $this->MasterModel->updatePetugas($id, $data);
+			$act = $this->MasterModel->updatePelanggan($id, $data);
 
 			if ($act) {
 				$response = array(
@@ -136,5 +135,5 @@
 	}
 	
 	/* End of file Profile.php */
-	/* Location: ./application/controllers/petugas/Profile.php */
+	/* Location: ./application/controllers/pelanggan/Profile.php */
 ?>

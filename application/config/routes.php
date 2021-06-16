@@ -58,6 +58,7 @@ $route['admin'] 	= 'admin/Dashboard';
 $route['petugas'] 	= 'petugas/Dashboard';
 $route['pelanggan'] = 'pelanggan/Dashboard';
 
+
 $route['admin/datapetugas'] 	= 'admin/MasterData/datapetugas';
 $route['admin/kategori'] 		= 'admin/MasterData/kategori';
 $route['admin/datapelanggan'] 	= 'admin/MasterData/datapelanggan';
@@ -66,4 +67,10 @@ $route['admin/datapelanggan'] 	= 'admin/MasterData/datapelanggan';
 $route['petugas/profile'] 		= 'petugas/Profile';
 $route['petugas/pembayaran'] 	= 'petugas/Pembayaran';
 $route['petugas/laporan'] 		= 'petugas/Laporan';
+$route['scanQRcode/(:any)'] 	= 'petugas/Pembayaran/scanToPayment/$1';
+
+
+$route['pelanggan/profile'] 		= 'pelanggan/Profile';
+$route['pelanggan/pembayaran'] 	= 'pelanggan/Pembayaran';
+$route['pelanggan/laporan'] 		= 'pelanggan/Laporan';
 
