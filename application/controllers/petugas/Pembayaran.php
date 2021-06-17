@@ -74,9 +74,11 @@
 			$today = new DateTime('today');
 			$y = $today->diff($tanggal)->y;
 
+				$data['id'] 			= $get->id;
 				$data['nama_lengkap'] 	= $get->nama_lengkap;
 				$data['foto'] 			= $get->foto;
 				$data['level'] 			= $get->level;
+				$data['nama_kategori']	= $get->nama_kategori;
 				$data['status'] 		= $get->status;
 				$data['tempat_lahir'] 	= $get->tempat_lahir;
 				$data['tanggal_lahir'] 	= date('d-m-Y', strtotime($get->tanggal_lahir));
@@ -89,6 +91,55 @@
 				$data['umur'] 			= $y;
 			
 			echo json_encode($data);
+		}
+
+		public function getDataPembayaran()
+		{
+			$username = $this->input->post('username');
+			$getId = $this->MasterModel->getPelangganByUsername($username)->row();
+
+			$get = $this->PembayaranModel->getDataPembayaran($getId->id)->result();
+			$html = '';
+			$no = 1;
+			foreach ($get as $gt) {
+
+				$html .= '<li class="checklist-entry list-group-item flex-column align-items-start py-2 px-2">
+		                  <div class="checklist-item checklist-item-success">
+		                    <div class="checklist-info">
+		                      <h5 class="checklist-title mb-0">Tagihan Ke - '.$no++.' | Invoice : '.$gt->no_invoice.'</h5>
+		                      <small>'.date('d-m-Y', strtotime($gt->tanggal_bayar)).' | Petugas : '.$gt->nama_lengkap.'</small>
+		                    </div>
+		                    <div class="mr-2">
+		                      <span class="fas fa-check text-success"></span>
+		                    </div>
+		                  </div>
+		                </li>';
+			}
+
+			echo $html;
+		}
+
+		public function addPembayaran()
+		{
+			$data['id_pelanggan'] = $this->input->post('id_pelanggan');
+			$data['id_petugas'] = $this->session->userdata('id');
+			$data['no_invoice'] = $this->PembayaranModel->getInvoice();
+
+			$act = $this->PembayaranModel->addPembayaran($data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Pembayaran Berhasil'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Pembayaran Gagal Silahkan Coba Lagi'
+				);
+			}
+
+			echo json_encode($response);
 		}
 	
 	}

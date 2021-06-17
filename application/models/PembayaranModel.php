@@ -73,6 +73,36 @@
 		        return $this->db->count_all_results();
 		    }
 		// Datatable
+
+		    function getDataPembayaran($id)
+		    {
+		    	$this->db->select('pembayaran.*, petugas.nama_lengkap');
+		    	$this->db->join('petugas', 'petugas.id = pembayaran.id_petugas', 'left');
+		    	$this->db->where('pembayaran.id_pelanggan', $id);
+		    	$this->db->order_by('pembayaran.tanggal_bayar', 'asc');
+		    	return $this->db->get('pembayaran');
+		    }
+
+		    function getInvoice()
+		    {
+		    	$q = $this->db->query("SELECT MAX(RIGHT(no_invoice,3)) AS kd_max FROM pembayaran WHERE DATE(tanggal_bayar)=CURDATE()");
+		        $kd = "";
+		        if($q->num_rows()>0){
+		            foreach($q->result() as $k){
+		                $tmp = ((int)$k->kd_max)+1;
+		                $kd = sprintf("%04s", $tmp);
+		            }
+		        }else{
+		            $kd = "0001";
+		        }
+		        date_default_timezone_set('Asia/Jakarta');
+		        return 'INV'.date('dmy').$kd; // INV0202200001
+		    }
+
+		    function addPembayaran($data)
+		    {
+		    	return $this->db->insert('pembayaran', $data);
+		    }
 	}
 	
 	/* End of file PembayaranModel.php */

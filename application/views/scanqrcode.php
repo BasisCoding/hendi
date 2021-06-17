@@ -47,7 +47,7 @@
                 <div class="col">
                   <div class="card-profile-stats d-flex justify-content-center">
                     <div>
-                      <span class="heading" id="jumlah-tagihan">22</span>
+                      <span class="heading" id="totalBayar"></span>
                       <span class="description">Jumlah Tagihan Yang Sudah Dibayar</span>
                     </div>
                   </div>
@@ -60,106 +60,36 @@
                 <div class="h5 font-weight-300">
                   <i class="ni location_pin mr-2"></i><span id="tempat-tanggal-lahir-card"></span>
                 </div>
-                <div class="h5 mt-4">
-                  <i class="ni business_briefcase-24 mr-2"></i><span id="kategori-card"></span>
+                <div class="h3 mt-4">
+                  <i class="ni business_briefcase-24 mr-2"></i><span id="nama-kategori"></span>
                 </div>
-                <div>
-                  <i class="ni education_hat mr-2"></i>University of Computer Science
-                </div>
+                
               </div>
             </div>
           </div>
-          <!-- Progress track -->
+        </div>
+
+        <div class="col-xl-5 order-xl-2">
           <div class="card">
             <!-- Card header -->
             <div class="card-header">
               <!-- Title -->
-              <h5 class="h3 mb-0">Progress track</h5>
+              <div class="row">
+                <div class="col-8">
+                  <h5 class="h3 mb-0">Daftar Tagihan</h5>
+                </div>
+                <div class="col-4 text-right">
+                    <button class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="modal" data-target="#modal-addPembayaran">
+                      <span class="btn-inner--text">Bayar</span>
+                    </button>
+                </div>
+              </div>
             </div>
             <!-- Card body -->
-            <div class="card-body">
+            <div class="card-body p-0">
               <!-- List group -->
-              <ul class="list-group list-group-flush list my--3">
-                <li class="list-group-item px-0">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <!-- Avatar -->
-                      <a href="#" class="avatar rounded-circle">
-                        <img alt="Image placeholder" src="<?= base_url('assets/assets/img/theme/bootstrap.jpg') ?>">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <h5>Argon Design System</h5>
-                      <div class="progress progress-xs mb-0">
-                        <div class="progress-bar bg-orange" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <!-- Avatar -->
-                      <a href="#" class="avatar rounded-circle">
-                        <img alt="Image placeholder" src="<?= base_url('assets/assets/img/theme/angular.jpg') ?>">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <h5>Angular Now UI Kit PRO</h5>
-                      <div class="progress progress-xs mb-0">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <!-- Avatar -->
-                      <a href="#" class="avatar rounded-circle">
-                        <img alt="Image placeholder" src="<?= base_url('assets/assets/img/theme/sketch.jpg') ?>">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <h5>Black Dashboard</h5>
-                      <div class="progress progress-xs mb-0">
-                        <div class="progress-bar bg-red" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100" style="width: 72%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <!-- Avatar -->
-                      <a href="#" class="avatar rounded-circle">
-                        <img alt="Image placeholder" src="<?= base_url('assets/assets/img/theme/react.jpg') ?>">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <h5>React Material Dashboard</h5>
-                      <div class="progress progress-xs mb-0">
-                        <div class="progress-bar bg-teal" role="progressbar" aria-valuenow="90" aria-valuemin="0" aria-valuemax="100" style="width: 90%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
-                <li class="list-group-item px-0">
-                  <div class="row align-items-center">
-                    <div class="col-auto">
-                      <!-- Avatar -->
-                      <a href="#" class="avatar rounded-circle">
-                        <img alt="Image placeholder" src="<?= base_url('assets/assets/img/theme/vue.jpg') ?>">
-                      </a>
-                    </div>
-                    <div class="col">
-                      <h5>Vue Paper UI Kit PRO</h5>
-                      <div class="progress progress-xs mb-0">
-                        <div class="progress-bar bg-green" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%;"></div>
-                      </div>
-                    </div>
-                  </div>
-                </li>
+              <ul class="list-group list-group-flush" data-toggle="checklist" style="max-height: 400px;overflow-y: auto" id="daftar-pelunasan">
+                
               </ul>
             </div>
           </div>
@@ -167,6 +97,31 @@
       </div>
     </div>
   
+  <div class="modal fade show" id="modal-addPembayaran" tabindex="-1" role="dialog" aria-labelledby="modal-addPembayaran" aria-modal="true">
+    <div class="modal-dialog modal-danger modal-dialog-top modal-sm" role="document">
+      <div class="modal-content bg-gradient-danger">
+        <div class="modal-header">
+          <h6 class="modal-title" id="modal-title-notification">Warning !</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="py-3 text-center">
+            <i class="ni ni-bell-55 ni-3x"></i>
+            <h4 class="heading mt-4">Apakah anda yakin ingin melunaskan tagihan selanjutnya dari pelanggan <span id="pelanggan"></span></h4>
+            <form class="form" id="form-addPembayaran" method="POST">
+              <input type="hidden" name="id_pelanggan" id="id_pelanggan">
+            </form>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-white" id="btn-add-pembayaran" form="form-addPembayaran">Ok</button>
+          <button type="button" class="btn btn-link text-white ml-auto" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>
   <!-- Core -->
   <script src="<?= site_url('assets/assets/vendor/jquery/dist/jquery.min.js') ?>"></script>
   <script src="<?= site_url('assets/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script> 
@@ -177,6 +132,8 @@
   <script type="text/javascript">
     $(document).ready(function() {
       get_profile();
+      getPembayaran();
+      
       function get_profile() {
         var username = '<?= $this->uri->segment(2) ?>';
         $.ajax({
@@ -198,12 +155,65 @@
 
             $('#link-foto').attr('href', foto);
             $('#foto-card').attr('src', foto);
+            $('#id_pelanggan').val(data.id);
             $('#nama-card').html(data.nama_lengkap);
             $('#umur-card').html(data.umur);
+            $('#nama-kategori').html(data.nama_kategori);
             $('#tempat-tanggal-lahir-card').html(data.tempat_lahir+', '+data.tanggal_lahir);
           }
         });
       }
+
+      function getPembayaran() {
+        var username = '<?= $this->uri->segment(2) ?>';
+        $.ajax({
+          url: '<?= site_url("petugas/Pembayaran/getDataPembayaran") ?>',
+          type:'POST',
+          async:false,
+          data:{username:username},
+          dataType: 'HTML',
+          success:function (data) {
+            $('#daftar-pelunasan').html(data);
+            var totalBayar = $('.checklist-entry').length;
+            $('#totalBayar').html(totalBayar);
+          }
+        });
+
+        return false;
+      }
+
+      $('#form-addPembayaran').submit(function() {
+        var data = $(this).serialize();
+        $.ajax({
+          url: '<?= base_url("petugas/Pembayaran/addPembayaran") ?>',
+          type: 'POST',
+          dataType: 'JSON',
+          data:data,
+          success:function (response) {
+            $.notify({
+                      icon: 'ni ni-bell-55',
+                      message:response.message
+                  },{
+                      type:response.type,
+                      placement: {
+                        from: "top",
+                        align: "right"
+                  },
+                      animate: {
+                        enter: 'animated fadeInDown',
+                        exit: 'animated fadeOutUp'
+                    }
+                  });
+
+            if (response.type == 'success') {
+              $('#modal-addPembayaran').modal('hide');
+              getPembayaran();
+            }
+          }
+        });
+        
+        return false;
+      });
     });
   </script>
 </body>

@@ -93,12 +93,14 @@
 			$data['level'] = 2;
 			$data['status'] = 1;
 
-			$upload = h_upload($data['username'], 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
-		
-	        if($upload){
-				$data['foto'] = $upload;
-			}else{
-				$data['foto'] = $foto_lama;
+			if (!empty($_FILES['foto']['name'])) {
+				$upload = h_upload($data['username'], 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
+			
+		        if($upload){
+					$data['foto'] = $upload;
+				}else{
+					$data['foto'] = $foto_lama;
+				}
 			}
 
 			$act = $this->MasterModel->addPetugas($data);
@@ -133,13 +135,15 @@
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
 
-			$upload = h_upload($username, 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
-		
-	        if($upload){
-				$data['foto'] = $upload;
-	        	@unlink('./assets/assets/img/users/petugas/'.$foto_lama);
-			}else{
-				$data['foto'] = $foto_lama;
+			if (!empty($_FILES['foto']['name'])) {
+				$upload = h_upload($username, 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
+			
+		        if($upload){
+					$data['foto'] = $upload;
+		        	@unlink('./assets/assets/img/users/petugas/'.$foto_lama);
+				}else{
+					$data['foto'] = $foto_lama;
+				}
 			}
 
 			$act = $this->MasterModel->updatePetugas($id, $data);
@@ -298,12 +302,14 @@
 					'message' => 'Username sudah tersedia silahkan coba lagi !!'
 				);
 			}else{
-				$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
-			
-		        if($foto){
-					$data['foto'] = $foto;
-				} else {
-					$data['foto'] = NULL;
+				if (!empty($_FILES['foto']['name'])) {
+					$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
+				
+			        if($foto){
+						$data['foto'] = $foto;
+					} else {
+						$data['foto'] = NULL;
+					}
 				}
 
 				$act = $this->MasterModel->addPelanggan($data);
@@ -340,13 +346,15 @@
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
 
-			$foto = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
+			if (!empty($_FILES['foto']['name'])) {
+				$foto = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
 
-	        if($foto){
-				$data['foto'] = $foto;
-	        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
-			} else {
-				$data['foto'] = NULL;
+		        if($foto){
+					$data['foto'] = $foto;
+		        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
+				} else {
+					$data['foto'] = NULL;
+				}
 			}
 
 			$act = $this->MasterModel->updatePelanggan($id, $data);
