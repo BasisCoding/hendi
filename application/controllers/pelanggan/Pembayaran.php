@@ -28,7 +28,7 @@
 		public function get_pembayaran()
 		{
 			$dt['id_pelanggan'] = $this->session->userdata('id');
-			$list = $this->PembayaranModel->get_pembayaran($dt);
+			$list = $this->PembayaranModel->get_pembayaran($dt['id_pelanggan']);
 			// echo $this->db->last_query($list);
 			$data = array();
 			$no = $_POST['start'];
