@@ -47,8 +47,8 @@
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->PembayaranModel->count_all_pembayaran(),
-	            "recordsFiltered" => $this->PembayaranModel->count_filtered_pembayaran(),
+	            "recordsTotal" => $this->PembayaranModel->count_all_pembayaran($id),
+	            "recordsFiltered" => $this->PembayaranModel->count_filtered_pembayaran($id),
 	            "data" => $data
 			);
 

@@ -71,6 +71,6 @@ $route['scanQRcode/(:any)'] 	= 'petugas/Pembayaran/scanToPayment/$1';
 
 
 $route['pelanggan/profile'] 		= 'pelanggan/Profile';
-$route['pelanggan/pembayaran'] 	= 'pelanggan/Pembayaran';
+$route['pelanggan/pembayaran'] 		= 'pelanggan/Pembayaran';
 $route['pelanggan/laporan'] 		= 'pelanggan/Laporan';
 

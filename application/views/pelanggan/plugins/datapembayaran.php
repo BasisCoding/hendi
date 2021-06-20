@@ -78,14 +78,8 @@
 </script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/dataTables.buttons.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-buttons-bs4/js/buttons.bootstrap4.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/dataTables.responsive.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.html5.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.flash.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-buttons/js/buttons.print.min.js') ?>"></script>
-<script src="<?= site_url('assets/assets/vendor/datatables.net-select/js/dataTables.select.min.js') ?>"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
 <script src="<?= site_url('assets/assets/vendor/bootstrap-notify/bootstrap-notify.min.js') ?>"></script>
 

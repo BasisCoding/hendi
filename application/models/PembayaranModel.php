@@ -51,7 +51,9 @@
 				$this->_get_datatables_query();
 		        if($_POST['length'] != -1)
 		        $this->db->limit($_POST['length'], $_POST['start']);
-		    	$this->db->where($data);
+		    	if ($data != NULL) {
+		    		$this->db->where($data);
+		    	}
 
 		        $query = $this->db->get();
 		        return $query->result();
@@ -60,8 +62,9 @@
 			function count_filtered_pembayaran($data)
 		    {
 		        $this->_get_datatables_query();
-		    	$this->db->where($data);
-
+				if ($data != NULL) {
+		    		$this->db->where($data);
+		    	}
 		        $query = $this->db->get();
 		        return $query->num_rows();
 		    }
@@ -69,7 +72,9 @@
 		    function count_all_pembayaran($data)
 		    {
 		        $this->db->from('pembayaran');
-		    	$this->db->where($data);
+		        if ($data != NULL) {
+		    		$this->db->where($data);
+		    	}
 		        return $this->db->count_all_results();
 		    }
 		// Datatable

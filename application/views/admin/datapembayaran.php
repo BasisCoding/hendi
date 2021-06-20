@@ -25,7 +25,7 @@
 
               </div>
             </div>
-            <div class="py-4">
+            <div class="py-4 table-responsive">
               <table class="table table-flush" id="table-pembayaran">
                 <thead class="thead-light">
                   <tr>

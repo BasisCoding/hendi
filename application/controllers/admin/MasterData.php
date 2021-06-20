@@ -225,7 +225,7 @@
 	 
 	        $image_name=$username.'.png'; //buat name dari qr code sesuai dengan username
 	 
-	        $params['data'] = $username; //data yang akan di jadikan QR CODE
+	        $params['data'] = base_url('scanQRcode/'.$username); //data yang akan di jadikan QR CODE
 	        $params['level'] = 'H'; //H=High
 	        $params['size'] = 10;
 	        $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
