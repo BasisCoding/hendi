@@ -143,6 +143,7 @@
           dataType: 'JSON',
           success:function (data) {
             console.log(data);
+            
             if (data.status == 1) {
               status = 'Aktif';
             }else{
