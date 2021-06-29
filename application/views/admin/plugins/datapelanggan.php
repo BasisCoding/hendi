@@ -170,37 +170,37 @@
 		$('#form-updatePelanggan').submit(function() {
 			
 			var formData = new FormData();
-	            formData.append('id', $('[name="id_update"]').val()); 
-	            formData.append('username', $('[name="username_update"]').val()); 
-	            formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
-	            formData.append('email', $('[name="email_update"]').val()); 
-	            formData.append('hp', $('[name="hp_update"]').val()); 
-	            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]').val()); 
-	            formData.append('tempat_lahir', $('[name="tempat_lahir_update"]').val()); 
-	            formData.append('tanggal_lahir', $('[name="tanggal_lahir_update"]').val()); 
-	            formData.append('alamat', $('[name="alamat_update"]').val()); 
-	            formData.append('foto_lama', $('[name="foto_lama"]').val()); 
+            formData.append('id', $('[name="id_update"]').val()); 
+            formData.append('username', $('[name="username_update"]').val()); 
+            formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
+            formData.append('email', $('[name="email_update"]').val()); 
+            formData.append('hp', $('[name="hp_update"]').val()); 
+            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]').val()); 
+            formData.append('tempat_lahir', $('[name="tempat_lahir_update"]').val()); 
+            formData.append('tanggal_lahir', $('[name="tanggal_lahir_update"]').val()); 
+            formData.append('alamat', $('[name="alamat_update"]').val()); 
+            formData.append('foto_lama', $('[name="foto_lama"]').val()); 
 
-	            formData.append('foto', $('[name="foto_update"]')[0].files[0]);
-            	actionData(formData, 'updatePelanggan');
-            	reload_table();
+            formData.append('foto', $('[name="foto_update"]')[0].files[0]);
+        	actionData(formData, 'updatePelanggan');
+        	reload_table();
 
-            	return false;
+        	return false;
 		});
 
 		$('#form-updateFileMOU').submit(function() {
 			var formData = new FormData();
-	            formData.append('id', $('[name="id_mou"]').val()); 
-	            formData.append('username', $('[name="username_mou"]').val()); 
-	            formData.append('id_kategori', $('[name="id_kategori_mou"]').val()); 
-	            formData.append('tanggal_mou', $('[name="tanggal_mou"]').val()); 
-	            formData.append('file_mou_lama', $('[name="file_mou_lama"]').val()); 
-	            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
+	        formData.append('id', $('[name="id_mou"]').val()); 
+            formData.append('username', $('[name="username_mou"]').val()); 
+            formData.append('id_kategori', $('[name="id_kategori_mou"]').val()); 
+            formData.append('tanggal_mou', $('[name="tanggal_mou"]').val()); 
+            formData.append('file_mou_lama', $('[name="file_mou_lama"]').val()); 
+            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
 
-	            actionData(formData, 'updateFileMOU');
-            	reload_table();
+            actionData(formData, 'updateFileMOU');
+        	reload_table();
 
-            	return false;
+        	return false;
 		});
 
 		$('#form-deletePelanggan').submit(function() {
@@ -208,6 +208,7 @@
             formData.append('id', $('[name="id_pelanggan_delete"]').val()); 
             formData.append('file', $('[name="foto_delete"]').val()); 
             formData.append('file_mou', $('[name="file_mou_delete"]').val()); 
+			
 			actionData(formData, 'deletePelanggan');
         	reload_table();
 

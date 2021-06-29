@@ -77,6 +77,13 @@
 
 	// Datatable Pelanggan
 
+	    public function get_default_pelanggan()
+	    {
+	    	$this->db->select('pelanggan.*, kategori_pelanggan.nama_kategori');
+	    	$this->db->join('kategori_pelanggan', 'kategori_pelanggan.id_kategori = pelanggan.id_kategori', 'left');
+	    	return $this->db->get('pelanggan')->result();
+	    }
+
 		function get_pelanggan()
 		{
 			$column_order = array(null, 'a.id', 'a.nama_lengkap','a.username','a.email', 'a.hp', 'a.jenis_kelamin', 'a.tempat_lahir', 'a.tanggal_lahir', 'a.alamat', 'a.foto', 'a.level', 'a.status', 'a.created_at'); 

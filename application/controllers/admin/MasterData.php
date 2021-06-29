@@ -249,10 +249,16 @@
 					$foto = site_url('assets/assets/img/users/pelanggan/'.$ls->foto);
 				}
 
+				if ($ls->qrcode == NULL) {
+					$qrcode = '';
+				}else{
+					$qrcode = site_url('assets/assets/img/qrcode/'.$ls->qrcode);
+				}
+
 				$no++;
 				$row = array();
 				$row[] = $no;
-				$row[] = '<a href="'.$foto.'" target="_blank"><img src="'.$foto.'" width="20" height="20"></a>';
+				$row[] = '<a href="'.$qrcode.'" target="_blank"><img src="'.$qrcode.'" width="20" height="20"></a> | <a href="'.$foto.'" target="_blank"><img src="'.$foto.'" width="20" height="20"></a>';
 				$row[] = $ls->username;
 				$row[] = $ls->nama_lengkap;
 				$row[] = $ls->email;

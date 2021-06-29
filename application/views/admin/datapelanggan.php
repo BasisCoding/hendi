@@ -30,7 +30,7 @@
                 <thead class="thead-light">
                   <tr>
                     <th>No</th>
-                    <th>Foto</th>
+                    <th>QRCode | Foto</th>
                     <th>Username</th>
                     <th>Nama Lengkap</th>
                     <th>Email</th>
@@ -169,7 +169,7 @@
         </div>
       </div>
 
-      <div class="modal fade" id="modal-updatePelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-updatepelanggan" aria-hidden="true">
+      <div class="modal fade" id="modal-updatePelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-updatePelanggan" aria-hidden="true">
         <div class="modal-dialog modal- modal-dialog-top modal-lg" role="document">
             <div class="modal-content">
                 
@@ -270,7 +270,7 @@
         </div>
       </div>
 
-      <div class="modal fade show" id="modal-deletePelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-delete-soal" aria-modal="true">
+      <div class="modal fade show" id="modal-deletePelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-deletePelanggan" aria-modal="true">
         <div class="modal-dialog modal-danger modal-dialog-top modal-sm" role="document">
           <div class="modal-content bg-gradient-danger">
             <div class="modal-header">

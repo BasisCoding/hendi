@@ -29,7 +29,7 @@
 		public function get_pembayaran()
 		{
 			$dt['id_petugas'] = $this->session->userdata('id');
-			$list = $this->PembayaranModel->get_pembayaran($dt['id_pelanggan']);
+			$list = $this->PembayaranModel->get_pembayaran($dt);
 			// echo $this->db->last_query($list);
 			$data = array();
 			$no = $_POST['start'];
