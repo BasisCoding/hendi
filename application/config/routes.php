@@ -57,12 +57,13 @@ $route['logout'] 	= 'Auth/logout';
 $route['admin'] 	= 'admin/Dashboard';
 $route['petugas'] 	= 'petugas/Dashboard';
 $route['pelanggan'] = 'pelanggan/Dashboard';
+$route['kepaladinas'] = 'kepaladinas/Dashboard';
 
 
 $route['admin/datapetugas'] 	= 'admin/MasterData/datapetugas';
 $route['admin/kategori'] 		= 'admin/MasterData/kategori';
 $route['admin/datapelanggan'] 	= 'admin/MasterData/datapelanggan';
-$route['admin/kartupelanggan'] = 'KartuPelanggan';
+$route['admin/kartupelanggan'] 	= 'KartuPelanggan';
 
 
 $route['petugas/profile'] 		= 'petugas/Profile';
@@ -75,3 +76,5 @@ $route['pelanggan/profile'] 		= 'pelanggan/Profile';
 $route['pelanggan/pembayaran'] 		= 'pelanggan/Pembayaran';
 $route['pelanggan/laporan'] 		= 'pelanggan/Laporan';
 
+$route['admin/laporan']				= 'Laporan';
+$route['kepaladinas/laporan']		= 'Laporan';

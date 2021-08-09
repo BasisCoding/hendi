@@ -1,6 +1,10 @@
 
 <script type="text/javascript">
 
+	var element = $("#cetak-invoice");  
+           
+    // Global variable 
+    var getCanvas; 
 	var table;
 	$(document).ready(function() {
 		
@@ -74,6 +78,48 @@
 			});
 		}
 
+		$('#table-data-pembayaran').on('click', '.btn-cetak', function() {
+			var no_invoice = $(this).attr('data-no');
+			var nama_pelanggan = $(this).attr('data-nama');
+			var tanggal_bayar = $(this).attr('data-tanggal');
+			var nama_petugas = $(this).attr('data-nama-petugas');
+			var kategori = $(this).attr('data-nama-kategori');
+
+			$('.no_invoice').html(no_invoice);
+			$('.nama_pelanggan').html(nama_pelanggan);
+			$('.tanggal').html(tanggal_bayar);
+			$('.nama_petugas').html(nama_petugas);
+			$('.kategori_pelanggan').html(kategori);
+			
+			$('#modal-Invoice').modal('show');
+		});
+
+		$('#btn-cetak').click(function() {
+
+			var invoice = $('.no_invoice').html();
+			html2canvas(element).then(function (canvas) {                   
+               	var anchorTag = document.createElement("a");
+                document.body.append(anchorTag);
+
+                anchorTag.download = invoice+".jpg";
+                anchorTag.href = canvas.toDataURL();
+                anchorTag.target = '_blank';
+                anchorTag.click();
+            });
+			
+			// var imgageData =  
+   //              getCanvas.toDataURL("image/png",1); 
+           
+   //          // Now browser starts downloading  
+   //          // it instead of just showing it 
+   //          var newData = imgageData.replace( 
+   //          /^data:image\/png/, "data:application/octet-stream"); 
+           
+   //          $("#btn-cetak").attr( 
+   //          "download", invoice+".png").attr( 
+   //          "href", newData); 
+		});
+
 	});
 </script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net/js/jquery.dataTables.min.js') ?>"></script>
@@ -84,6 +130,6 @@
 <script src="<?= site_url('assets/assets/vendor/bootstrap-notify/bootstrap-notify.min.js') ?>"></script>
 
 <script src="<?= site_url('assets/assets/js/argon.js?v=1.1.0') ?>"></script>
-
+<script src="<?= site_url('assets/assets/js/html2canvas.js') ?>"></script>
 </body>
 </html>

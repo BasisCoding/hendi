@@ -40,7 +40,8 @@
 				$row[] = $ls->no_invoice;
 				$row[] = $ls->nama_petugas;
 				$row[] = $ls->tanggal_bayar;
-				$row[] = 'Ke - '.$no;
+				$row[] = '<button class="btn btn-warning btn-sm btn-rounded btn-cetak" data-no="'.$ls->no_invoice.'" data-nama="'.$ls->nama_pelanggan.'" data-nama-kategori="'.$ls->nama_kategori.'" data-nama-petugas="'.$ls->nama_petugas.'" data-tanggal="'.$ls->tanggal_bayar.'">Download</button>';
+
 
 				$data[] = $row;
 			}

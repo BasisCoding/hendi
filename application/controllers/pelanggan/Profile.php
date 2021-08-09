@@ -42,7 +42,6 @@
 				$data['status'] 		= $get->status;
 				$data['tempat_lahir'] 	= $get->tempat_lahir;
 				$data['tanggal_lahir'] 	= date('d-m-Y', strtotime($get->tanggal_lahir));
-				$data['tanggal_lahir1'] = $get->tanggal_lahir;
 				$data['jenis_kelamin'] 	= $get->jenis_kelamin;
 				$data['email'] 			= $get->email;
 				$data['hp'] 			= $get->hp;

@@ -18,6 +18,8 @@
   <link rel="stylesheet" href="<?= site_url('assets/assets/vendor/datatables.net-bs4/css/dataTables.bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?= site_url('assets/assets/vendor/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/css/responsive.bootstrap4.min.css') ?>">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.1/css/buttons.dataTables.min.css">
+    
   <link rel="stylesheet" href="<?= site_url('assets/assets/vendor/datatables.net-select-bs4/css/select.bootstrap4.min.css') ?>">
   <link rel="stylesheet" href="<?= site_url('assets/assets/vendor/select2/dist/css/select2.min.css') ?>">
   <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedcolumns/3.3.3/css/fixedColumns.bootstrap4.min.css">

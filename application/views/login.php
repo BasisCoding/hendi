@@ -77,6 +77,7 @@
                       <option value="admin">Administrator</option>
                       <option value="petugas">Petugas</option>
                       <option value="pelanggan">Pelanggan</option>
+                      <option value="kepaladinas">Kepala Dinas</option>
                     </select>
                   </div>
                 </div>
