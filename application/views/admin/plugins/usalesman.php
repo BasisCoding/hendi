@@ -4,9 +4,9 @@
 	var table;
 	$(document).ready(function() {
 		
-		 // $('#table-petugas').scrollbar();
+		 // $('#table-salesman').scrollbar();
 
-		table = $('#table-petugas').DataTable({
+		table = $('#table-salesman').DataTable({
 			"processing": true, 
             "serverSide": true,
             "scrollX": true,
@@ -20,7 +20,7 @@
             "autoWidth" : true,
              
             "ajax": {
-                "url": "<?= base_url('admin/MasterData/get_petugas')?>",
+                "url": "<?= base_url('admin/MasterData/get_salesman')?>",
                 "type": "POST"
             },
 
@@ -39,20 +39,9 @@
 		});
 
 		function reload_table() {
-			table.ajax.reload();
+			table.ajax.reload(null, false);
 		}
 
-		function bacaGambar(input) {
-		   if (input.files && input.files[0]) {
-		      var reader = new FileReader();
-		 
-		      reader.onload = function (e) {
-		          $('.foto-preview').attr('src', e.target.result);
-		      }
-		 
-		      reader.readAsDataURL(input.files[0]);
-		   }
-		}
 
 		function actionData(formData, action) {
 			$.ajax({
@@ -68,10 +57,11 @@
 	                    message:response.message
 	                },{
 	                    type:response.type,
+	                    z_index:2000,
 	                    placement: {
 	                      from: "top",
 	                      align: "right"
-	                },
+	                	},
 	                    animate: {
 	                      enter: 'animated fadeInDown',
 	                      exit: 'animated fadeOutUp'
@@ -86,15 +76,7 @@
 			});
 		}
 
-		$("#foto").change(function(){
-		   bacaGambar(this);
-		});
-
-		$("#foto_update").change(function(){
-		   bacaGambar(this);
-		});
-		
-		$('#form-addPetugas').submit(function() {
+		$('#form-addSalesman').submit(function() {
 			
 			if ($('[name="konf_password"]').val() != $('[name="password"]').val()) {
             	$('.notSamePassword').removeAttr('hidden');
@@ -113,65 +95,61 @@
 	            formData.append('tanggal_lahir', $('[name="tanggal_lahir"]').val()); 
 	            formData.append('alamat', $('[name="alamat"]').val()); 
 
-	            formData.append('foto', $('[name="foto"]')[0].files[0]);
-            	actionData(formData, 'addPetugas');
+            	actionData(formData, 'addSalesman');
             	reload_table();
 
             	return false;
             }
 		});
 
-		$('#form-updatePetugas').submit(function() {
+		$('#form-updateSalesman').submit(function() {
 			
 			var formData = new FormData();
-	            formData.append('id', $('[name="id_update"]').val()); 
-	            formData.append('username', $('[name="username_update"]').val()); 
-	            formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
-	            formData.append('email', $('[name="email_update"]').val()); 
-	            formData.append('hp', $('[name="hp_update"]').val()); 
-	            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]').val()); 
-	            formData.append('tempat_lahir', $('[name="tempat_lahir_update"]').val()); 
-	            formData.append('tanggal_lahir', $('[name="tanggal_lahir_update"]').val()); 
-	            formData.append('alamat', $('[name="alamat_update"]').val()); 
-	            formData.append('foto_lama', $('[name="foto_lama"]').val()); 
+            formData.append('id', $('[name="id_update"]').val()); 
+            formData.append('username', $('[name="username_update"]').val()); 
+            formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
+            formData.append('email', $('[name="email_update"]').val()); 
+            formData.append('hp', $('[name="hp_update"]').val()); 
+            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]:checked').val()); 
+            formData.append('tempat_lahir', $('[name="tempat_lahir_update"]').val()); 
+            formData.append('tanggal_lahir', $('[name="tanggal_lahir_update"]').val()); 
+            formData.append('alamat', $('[name="alamat_update"]').val()); 
 
-	            formData.append('foto', $('[name="foto_update"]')[0].files[0]);
-            	actionData(formData, 'updatePetugas');
-            	reload_table();
-
-            	return false;
-		});
-
-		$('#table-data-petugas').on('click', '.delete-data', function() {
-			var id = $(this).attr('data-id');
-			var nama = $(this).attr('data-nama');
-			var foto = $(this).attr('data-foto');
-			
-			$('#petugas-delete').html(nama);
-			$('[name="id_petugas_delete"]').val(id);
-			$('[name="foto_delete"]').val(foto);
-
-			$('#modal-deletePetugas').modal('show');
-		});
-
-		$('#form-deletePetugas').submit(function() {
-			var formData = new FormData();
-            formData.append('id', $('[name="id_petugas_delete"]').val()); 
-            formData.append('foto', $('[name="foto_delete"]').val()); 
-			actionData(formData, 'deletePetugas');
+        	actionData(formData, 'updateSalesman');
         	reload_table();
 
         	return false;
 		});
 
-		$('#table-data-petugas').on('click', '.edit-data', function() {
+		$('#form-deleteSalesman').submit(function() {
+			var formData = new FormData();
+            formData.append('id', $('[name="id_salesman_delete"]').val()); 
+			
+			actionData(formData, 'deleteSalesman');
+        	reload_table();
+
+        	return false;
+		});
+
+		$('#table-data-salesman').on('click', '.delete-data', function() {
+			var id = $(this).attr('data-id');
+			var nama = $(this).attr('data-nama');
+			
+			$('#salesman-delete').html(nama);
+			$('[name="id_salesman_delete"]').val(id);
+
+			$('#modal-deleteSalesman').modal('show');
+		});
+
+		$('#table-data-salesman').on('click', '.edit-data', function() {
 			var id = $(this).attr('data-id');
 			$.ajax({
-				url: '<?= base_url("admin/MasterData/getPetugasById") ?>',
-				type: 'GET',
+				url: '<?= base_url("admin/MasterData/getsalesmanById") ?>',
+				type: 'POST',
 				dataType: 'JSON',
 				data:{id:id},
 				success:function (data) {
+					
 					$('[name="id_update"]').val(id);
 					$('[name="nama_lengkap_update"]').val(data.nama_lengkap);
 					$('[name="username_update"]').val(data.username);
@@ -180,24 +158,19 @@
 					$('[name="tempat_lahir_update"]').val(data.tempat_lahir);
 					$('[name="tanggal_lahir_update"]').val(data.tanggal_lahir);
 					$('[name="alamat_update"]').val(data.alamat);
-					$('[name="foto_lama"]').val(data.foto);
-					
+					// $('[name="jenis_kelamin_update"]').val(data.jenis_kelamin).trigger('change');
+
 					if(data.jenis_kelamin == 'L'){
-						$('#laki-laki_update').prop('checked', true);
+						$('#laki-laki_update').attr('checked', true);
 					}else{
-						$('#perempuan_update').prop('checked', true)
+						$('#perempuan_update').attr('checked', true)
 					}
 					
-					if (data.foto == null) {
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/petugas/default.png") ?>');
-					}else{
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/petugas/") ?>'+data.foto+'');
-					}
-					
-					$('#modal-updatePetugas').modal('show');
+					$('#modal-updateSalesman').modal('show');
 				}
 			});
 		});
+
 
 	});
 </script>
@@ -205,6 +178,7 @@
 <script src="<?= site_url('assets/assets/vendor/datatables.net-bs4/js/dataTables.bootstrap4.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/dataTables.responsive.min.js') ?>"></script>
 <script src="<?= site_url('assets/assets/vendor/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js') ?>"></script>
+<script src="<?= site_url('assets/assets/vendor/select2/dist/js/select2.min.js') ?>"></script>
 <script src="https://cdn.datatables.net/fixedcolumns/3.3.3/js/dataTables.fixedColumns.min.js"></script>
 <script src="<?= site_url('assets/assets/vendor/bootstrap-notify/bootstrap-notify.min.js') ?>"></script>
 

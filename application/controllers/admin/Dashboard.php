@@ -13,7 +13,7 @@
 	
 		public function index()
 		{
-			$def['title'] = 'SISRES | Dashboard';
+			$def['title'] = SHORT_SITE_URL.' | Dashboard';
 			$def['breadcrumb'] = '';
 
 			$this->load->view('partials/head', $def);

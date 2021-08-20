@@ -3,11 +3,10 @@
 
 	var table;
 	$(document).ready(function() {
+		
+		 // $('#table-gudang').scrollbar();
 
-		showKategori();		
-		 // $('#table-pelanggan').scrollbar();
-
-		table = $('#table-pelanggan').DataTable({
+		table = $('#table-gudang').DataTable({
 			"processing": true, 
             "serverSide": true,
             "scrollX": true,
@@ -21,7 +20,7 @@
             "autoWidth" : true,
              
             "ajax": {
-                "url": "<?= base_url('admin/MasterData/get_pelanggan')?>",
+                "url": "<?= base_url('admin/MasterData/get_gudang')?>",
                 "type": "POST"
             },
 
@@ -43,53 +42,6 @@
 			table.ajax.reload(null, false);
 		}
 
-		function showKategori() {
-			var kategori = $('.id_kategori');
-			$.ajax({
-				url: '<?= base_url("admin/MasterData/showSelectKategori") ?>',
-				type: 'POST',
-				dataType: 'JSON',
-				success:function (data) {
-					$('[data-toggle="select"]').select2({
-						placeholder:'Jenis Pelanggan'
-					});
-
-					var html = '';
-					var i;
-						html += '<option></option>';
-					for (var i = 0; i < data.length; i++) {
-						html += '<option value="'+data[i].id_kategori+'">'+data[i].nama_kategori+'</option>';
-					}
-
-					kategori.html(html);
-				}
-			});
-			
-		}
-
-		function bacaGambar(input) {
-		   if (input.files && input.files[0]) {
-		      var reader = new FileReader();
-		 
-		      reader.onload = function (e) {
-		          $('.foto-preview').attr('src', e.target.result);
-		      }
-		 
-		      reader.readAsDataURL(input.files[0]);
-		   }
-		}
-
-		function bacaFile(input) {
-		   if (input.files && input.files[0]) {
-		      var reader = new FileReader();
-		 
-		      reader.onload = function (e) {
-		          $('.file-preview').attr('src', e.target.result);
-		      }
-		 
-		      reader.readAsDataURL(input.files[0]);
-		   }
-		}
 
 		function actionData(formData, action) {
 			$.ajax({
@@ -124,23 +76,7 @@
 			});
 		}
 
-		$("#foto").change(function(){
-		   bacaGambar(this);
-		});
-
-		$("#foto_update").change(function(){
-		   bacaGambar(this);
-		});
-
-		$("#fileMOU").change(function(){
-		   bacaFile(this);
-		});
-
-		$("#fileMOUUpdate").change(function(){
-		   bacaFile(this);
-		});
-		
-		$('#form-addPelanggan').submit(function() {
+		$('#form-addGudang').submit(function() {
 			
 			if ($('[name="konf_password"]').val() != $('[name="password"]').val()) {
             	$('.notSamePassword').removeAttr('hidden');
@@ -159,15 +95,14 @@
 	            formData.append('tanggal_lahir', $('[name="tanggal_lahir"]').val()); 
 	            formData.append('alamat', $('[name="alamat"]').val()); 
 
-	            formData.append('foto', $('[name="foto"]')[0].files[0]);
-            	actionData(formData, 'addPelanggan');
+            	actionData(formData, 'addGudang');
             	reload_table();
 
             	return false;
             }
 		});
 
-		$('#form-updatePelanggan').submit(function() {
+		$('#form-updateGudang').submit(function() {
 			
 			var formData = new FormData();
             formData.append('id', $('[name="id_update"]').val()); 
@@ -175,65 +110,42 @@
             formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
             formData.append('email', $('[name="email_update"]').val()); 
             formData.append('hp', $('[name="hp_update"]').val()); 
-            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]').val()); 
+            formData.append('jenis_kelamin', $('[name="jenis_kelamin_update"]:checked').val()); 
             formData.append('tempat_lahir', $('[name="tempat_lahir_update"]').val()); 
             formData.append('tanggal_lahir', $('[name="tanggal_lahir_update"]').val()); 
             formData.append('alamat', $('[name="alamat_update"]').val()); 
-            formData.append('foto_lama', $('[name="foto_lama"]').val()); 
 
-            formData.append('foto', $('[name="foto_update"]')[0].files[0]);
-        	actionData(formData, 'updatePelanggan');
+        	actionData(formData, 'updateGudang');
         	reload_table();
 
         	return false;
 		});
 
-		$('#form-updateFileMOU').submit(function() {
+		$('#form-deleteGudang').submit(function() {
 			var formData = new FormData();
-	        formData.append('id', $('[name="id_mou"]').val()); 
-            formData.append('username', $('[name="username_mou"]').val()); 
-            formData.append('id_kategori', $('[name="id_kategori_mou"]').val()); 
-            formData.append('tanggal_mou', $('[name="tanggal_mou"]').val()); 
-            formData.append('file_mou_lama', $('[name="file_mou_lama"]').val()); 
-            formData.append('file_mou', $('[name="file_mou"]')[0].files[0]);
-
-            actionData(formData, 'updateFileMOU');
-        	reload_table();
-
-        	return false;
-		});
-
-		$('#form-deletePelanggan').submit(function() {
-			var formData = new FormData();
-            formData.append('id', $('[name="id_pelanggan_delete"]').val()); 
-            formData.append('file', $('[name="foto_delete"]').val()); 
-            formData.append('file_mou', $('[name="file_mou_delete"]').val()); 
+            formData.append('id', $('[name="id_gudang_delete"]').val()); 
 			
-			actionData(formData, 'deletePelanggan');
+			actionData(formData, 'deleteGudang');
         	reload_table();
 
         	return false;
 		});
 
-		$('#table-data-pelanggan').on('click', '.delete-data', function() {
+		$('#table-data-gudang').on('click', '.delete-data', function() {
 			var id = $(this).attr('data-id');
 			var nama = $(this).attr('data-nama');
-			var foto = $(this).attr('data-foto');
-			var file_mou = $(this).attr('data-file_mou');
 			
-			$('#pelanggan-delete').html(nama);
-			$('[name="id_pelanggan_delete"]').val(id);
-			$('[name="foto_delete"]').val(foto);
-			$('[name="file_mou_delete"]').val(file_mou);
+			$('#gudang-delete').html(nama);
+			$('[name="id_gudang_delete"]').val(id);
 
-			$('#modal-deletePelanggan').modal('show');
+			$('#modal-deleteGudang').modal('show');
 		});
 
-		$('#table-data-pelanggan').on('click', '.edit-data', function() {
+		$('#table-data-gudang').on('click', '.edit-data', function() {
 			var id = $(this).attr('data-id');
 			$.ajax({
-				url: '<?= base_url("admin/MasterData/getPelangganById") ?>',
-				type: 'GET',
+				url: '<?= base_url("admin/MasterData/getGudangById") ?>',
+				type: 'POST',
 				dataType: 'JSON',
 				data:{id:id},
 				success:function (data) {
@@ -246,51 +158,19 @@
 					$('[name="tempat_lahir_update"]').val(data.tempat_lahir);
 					$('[name="tanggal_lahir_update"]').val(data.tanggal_lahir);
 					$('[name="alamat_update"]').val(data.alamat);
-					$('[name="foto_lama"]').val(data.foto);
-					
+					// $('[name="jenis_kelamin_update"]').val(data.jenis_kelamin).trigger('change');
+
 					if(data.jenis_kelamin == 'L'){
-						$('#laki-laki_update').prop('checked', true);
+						$('#laki-laki_update').attr('checked', true);
 					}else{
-						$('#perempuan_update').prop('checked', true)
+						$('#perempuan_update').attr('checked', true)
 					}
 					
-					if (data.foto == null) {
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/default.png") ?>');
-					}else{
-						$('.foto-preview').attr('src', '<?= base_url("assets/assets/img/users/pelanggan/") ?>'+data.foto+'');
-					}
-
-					$('#modal-updatePelanggan').modal('show');
+					$('#modal-updateGudang').modal('show');
 				}
 			});
 		});
 
-		$('#table-data-pelanggan').on('click', '.view-data', function() {
-			var id 			= $(this).attr('data-id');
-			var username 	= $(this).attr('data-username');
-			$.ajax({
-				url: '<?= base_url("admin/MasterData/getPelangganById") ?>',
-				type: 'GET',
-				dataType: 'JSON',
-				data:{id:id},
-				success:function (data) {
-					
-					$('[name="id_mou"]').val(id);
-					$('[name="username_mou"]').val(username);
-					$('[name="tanggal_mou"]').val(data.tanggal_mou);
-					$('[name="id_kategori_mou"]').val(data.id_kategori).trigger('change');
-
-					if (data.file_mou == null) {
-						$('.file-preview').attr('src', '');
-					}else{
-						$('[name="file_mou_update"]').val(data.file_mou);
-						$('.file-preview').attr('src', '<?= base_url("assets/assets/file/")?>'+data.file_mou);
-					}
-					
-					$('#modal-updateFileMOU').modal('show');
-				}
-			});
-		});
 
 	});
 </script>

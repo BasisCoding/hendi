@@ -1,4 +1,4 @@
-<?php
+<?php 
 	defined('BASEPATH') OR exit('No direct script access allowed');
 	
 	class MasterData extends CI_Controller {
@@ -6,259 +6,47 @@
 		public function __construct()
 		{
 			parent::__construct();
-			$this->load->model('MasterModel');
-			$this->load->helper('upload');
-			if ($this->session->userdata('logged') == false || $this->session->userdata('level') != 1) {
-				redirect('Auth','refresh');
-			}
+			$this->load->model('UPelangganModel');
+			$this->load->model('UPengirimanModel');
+			$this->load->model('UGudangModel');
+			$this->load->model('USalesmanModel');
 		}
 	
-	// Controller Petugas
-		public function datapetugas()
+	// Function Pelanggan
+		
+		public function pelanggan()
 		{
-			$def['title'] = 'SISRES | Data Petugas';
-			$def['breadcrumb'] = 'Data Petugas';
-
-			$this->load->view('partials/head', $def);
-			$this->load->view('partials/navbar');
-			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('admin/datapetugas');
-			$this->load->view('partials/footer');
-			$this->load->view('admin/plugins/datapetugas');
-		}
-
-		public function getPetugasById()
-		{
-			$id = $this->input->get('id');
-			$data = $this->MasterModel->getPetugasById($id)->row();
-			echo json_encode($data);
-		}
-
-		public function get_petugas()
-		{
-			$list = $this->MasterModel->get_petugas();
-
-			$data = array();
-			$no = $_POST['start'];
-
-			foreach ($list as $ls) {
-
-				if ($ls->foto == NULL) {
-					$foto = site_url('assets/assets/img/users/default.png');
-				}else{
-					$foto = site_url('assets/assets/img/users/petugas/'.$ls->foto);
-				}
-
-				$no++;
-				$row = array();
-				$row[] = $no;
-				$row[] = '<a href="'.$foto.'" target="_blank"><img src="'.$foto.'" width="20" height="20"></a>';
-				$row[] = $ls->username;
-				$row[] = $ls->nama_lengkap;
-				$row[] = $ls->email;
-				$row[] = $ls->hp;
-				$row[] = $ls->jenis_kelamin;
-				$row[] = $ls->tempat_lahir.', '.$ls->tanggal_lahir;
-
-				$row[] = '
-					<div class="btn-group">
-						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
-						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" data-foto="'.$ls->foto.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
-					</div>';
-
-				$data[] = $row;
-			}
-
-			$output = array(
-				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->MasterModel->count_all_petugas(),
-	            "recordsFiltered" => $this->MasterModel->count_filtered_petugas(),
-	            "data" => $data
-			);
-
-			echo json_encode($output);
-		}
-
-		public function addPetugas()
-		{
-			$data['username'] = $this->input->post('username');
-			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
-			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
-			$data['email'] = $this->input->post('email');
-			$data['hp'] = $this->input->post('hp');
-			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
-			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
-			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
-			$data['alamat'] = $this->input->post('alamat');
-			$data['level'] = 2;
-			$data['status'] = 1;
-
-			if (!empty($_FILES['foto']['name'])) {
-				$upload = h_upload($data['username'], 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
-			
-		        if($upload){
-					$data['foto'] = $upload;
-				}else{
-					$data['foto'] = $foto_lama;
-				}
-			}
-
-			$act = $this->MasterModel->addPetugas($data);
-
-			if ($act) {
-				$response = array(
-					'type' => 'success',
-					'message' => 'Data petugas berhasil dikirim'
-				);
-			}else{
-				$response = array(
-					'type' => 'danger',
-					'message' => 'Data Petugas gagal dikirim'
-				);
-			}
-
-			echo json_encode($response);
-
-		}
-
-		public function updatePetugas()
-		{
-			$id = $this->input->post('id');
-			$username = $this->input->post('username');
-			$foto_lama = $this->input->post('foto_lama');
-
-			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
-			$data['email'] = $this->input->post('email');
-			$data['hp'] = $this->input->post('hp');
-			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
-			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
-			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
-			$data['alamat'] = $this->input->post('alamat');
-
-			if (!empty($_FILES['foto']['name'])) {
-				$upload = h_upload($username, 'assets/assets/img/users/petugas', 'gif|jpg|png|jpeg', '1024', 'foto');
-			
-		        if($upload){
-					$data['foto'] = $upload;
-		        	@unlink('./assets/assets/img/users/petugas/'.$foto_lama);
-				}else{
-					$data['foto'] = $foto_lama;
-				}
-			}
-
-			$act = $this->MasterModel->updatePetugas($id, $data);
-
-			if ($act) {
-				$response = array(
-					'type' => 'success',
-					'message' => 'Data petugas berhasil dikirim'
-				);
-			}else{
-				$response = array(
-					'type' => 'danger',
-					'message' => 'Data Petugas gagal dikirim'
-				);
-			}
-
-			echo json_encode($response);
-
-		}
-
-		public function deletePetugas()
-		{
-			$id = $this->input->post('id');
-			$foto = $this->input->post('foto');
-
-			$act = $this->MasterModel->deletePetugas($id);
-
-			if ($act) {
-	        	@unlink('./assets/assets/img/users/petugas/'.$foto);
-				$response = array(
-					'type' => 'success',
-					'message' => 'Data petugas berhasil dihapus'
-				);
-			}else{
-				$response = array(
-					'type' => 'danger',
-					'message' => 'Data Petugas gagal dihapus'
-				);
-			}
-
-			echo json_encode($response);
-		}
-	// Controller Petugas
-
-	// Controller Pelanggan
-		public function datapelanggan()
-		{
-			$def['title'] = 'SISRES | Data Pelanggan';
+			$def['title'] = SHORT_SITE_URL.' | Data Pelanggan';
 			$def['breadcrumb'] = 'Data Pelanggan';
 
 			$this->load->view('partials/head', $def);
 			$this->load->view('partials/navbar');
 			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('admin/datapelanggan');
+			$this->load->view('admin/pelanggan');
 			$this->load->view('partials/footer');
-			$this->load->view('admin/plugins/datapelanggan');
+			$this->load->view('admin/plugins/pelanggan');
 		}
 
 		public function getPelangganById()
 		{
-			$id = $this->input->get('id');
-			$data = $this->MasterModel->getPelangganById($id)->row();
+			$id = $this->input->post('id');
+			$data = $this->UPelangganModel->getPelangganById($id)->row();
 			echo json_encode($data);
-		}
-
-		public function create_qrcode($username)
-		{
-			$this->load->library('ciqrcode'); //pemanggilan library QR CODE
- 
-	        $config['cacheable']    = true; //boolean, the default is true
-	        $config['cachedir']     = './assets/assets/img/'; //string, the default is application/cache/
-	        $config['errorlog']     = './assets/assets/img/'; //string, the default is application/logs/
-	        $config['imagedir']     = './assets/assets/img/qrcode/'; //direktori penyimpanan qr code
-	        $config['quality']      = true; //boolean, the default is true
-	        $config['size']         = '1024'; //interger, the default is 1024
-	        $config['black']        = array(224,255,255); // array, default is array(255,255,255)
-	        $config['white']        = array(70,130,180); // array, default is array(0,0,0)
-	        $this->ciqrcode->initialize($config);
-	 
-	        $image_name=$username.'.png'; //buat name dari qr code sesuai dengan username
-	 
-	        $params['data'] = base_url('scanQRcode/'.$username); //data yang akan di jadikan QR CODE
-	        $params['level'] = 'H'; //H=High
-	        $params['size'] = 10;
-	        $params['savename'] = FCPATH.$config['imagedir'].$image_name; //simpan image QR CODE ke folder assets/images/
-	        $this->ciqrcode->generate($params);
-
-	        return $image_name;
 		}
 
 		public function get_pelanggan()
 		{
-			$list = $this->MasterModel->get_pelanggan();
+			$list = $this->UPelangganModel->get_datatables();
 
 			$data = array();
 			$no = $_POST['start'];
 
 			foreach ($list as $ls) {
 
-				if ($ls->foto == NULL) {
-					$foto = site_url('assets/assets/img/users/default.png');
-				}else{
-					$foto = site_url('assets/assets/img/users/pelanggan/'.$ls->foto);
-				}
-
-				if ($ls->qrcode == NULL) {
-					$qrcode = '';
-				}else{
-					$qrcode = site_url('assets/assets/img/qrcode/'.$ls->qrcode);
-				}
-
 				$no++;
 				$row = array();
 				$row[] = $no;
-				$row[] = '<a href="'.$qrcode.'" target="_blank"><img src="'.$qrcode.'" width="20" height="20"></a> | <a href="'.$foto.'" target="_blank"><img src="'.$foto.'" width="20" height="20"></a>';
+				
 				$row[] = $ls->username;
 				$row[] = $ls->nama_lengkap;
 				$row[] = $ls->email;
@@ -268,9 +56,8 @@
 
 				$row[] = '
 					<div class="btn-group">
-						<button class="btn btn-warning btn-sm view-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-eye"></span></button>
 						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
-						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" data-foto="'.$ls->foto.'" data-file_mou="'.$ls->file_mou.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
 					</div>';
 
 				$data[] = $row;
@@ -278,8 +65,8 @@
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->MasterModel->count_all_pelanggan(),
-	            "recordsFiltered" => $this->MasterModel->count_filtered_pelanggan(),
+	            "recordsTotal" => $this->UPelangganModel->count_all(),
+	            "recordsFiltered" => $this->UPelangganModel->count_filtered(),
 	            "data" => $data
 			);
 
@@ -297,52 +84,40 @@
 			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
-			$data['qrcode'] = $this->create_qrcode($data['username']);
-			$data['level'] = 3;
+			$data['level'] = 2;
 			$data['status'] = 1;
 
-			$validate = $this->MasterModel->getPelangganByUsername($data['username']);
+			$validate = $this->UPelangganModel->getPelangganByUsername($data['username']);
 			if ($validate->num_rows() > 0) {
 				$response = array(
 					'type' => 'danger',
 					'message' => 'Username sudah tersedia silahkan coba lagi !!'
 				);
 			}else{
-				if (!empty($_FILES['foto']['name'])) {
-					$foto = h_upload($data['username'], 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
-				
-			        if($foto){
-						$data['foto'] = $foto;
-					} else {
-						$data['foto'] = NULL;
-					}
-				}
 
-				$act = $this->MasterModel->addPelanggan($data);
+				$act = $this->UPelangganModel->addPelanggan($data);
 
 				if ($act) {
 					$response = array(
 						'type' => 'success',
-						'message' => 'Data petugas berhasil dikirim'
+						'message' => 'Data Pelanggan berhasil dikirim'
 					);
 				}else{
 					$response = array(
 						'type' => 'danger',
-						'message' => 'Data Petugas gagal dikirim'
+						'message' => 'Data Pelanggan gagal dikirim'
 					);
 				}
 			}
 			
 
 			echo json_encode($response);
-
 		}
 
 		public function updatePelanggan()
 		{
 			$id = $this->input->post('id');
 			$username = $this->input->post('username');
-			$foto_lama = $this->input->post('foto_lama');
 
 			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
 			$data['email'] = $this->input->post('email');
@@ -351,34 +126,22 @@
 			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
-
-			if (!empty($_FILES['foto']['name'])) {
-				$foto = h_upload($username, 'assets/assets/img/users/pelanggan', 'gif|jpg|png|jpeg', '1024', 'foto');
-
-		        if($foto){
-					$data['foto'] = $foto;
-		        	@unlink('./assets/assets/img/users/pelanggan/'.$foto_lama);
-				} else {
-					$data['foto'] = NULL;
-				}
-			}
-
-			$act = $this->MasterModel->updatePelanggan($id, $data);
+			
+			$act = $this->UPelangganModel->updatePelanggan($id, $data);
 
 			if ($act) {
 				$response = array(
 					'type' => 'success',
-					'message' => 'Data petugas berhasil dikirim'
+					'message' => 'Data Pelanggan Berhasil Diubah'
 				);
 			}else{
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Petugas gagal dikirim'
+					'message' => 'Data Pelanggan Gagal Diubah'
 				);
 			}
 
 			echo json_encode($response);
-
 		}
 
 		public function deletePelanggan()
@@ -386,78 +149,53 @@
 			$id = $this->input->post('id');
 			$data['status'] = 0;
 
-			$act = $this->MasterModel->updatePelanggan($id, $data);
+			$act = $this->UPelangganModel->updatePelanggan($id, $data);
 
 			if ($act) {
 				$response = array(
 					'type' => 'success',
-					'message' => 'Data petugas berhasil dihapus'
+					'message' => 'Data Pelanggan Berhasil dihapus'
 				);
 			}else{
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Petugas gagal dihapus'
+					'message' => 'Data Pelanggan Gagal dihapus'
 				);
 			}
 
 			echo json_encode($response);
 		}
 
-		public function updateFileMOU()
+	// End Function Pelanggan
+
+
+
+
+	// End Function Pengiriman
+
+		public function pengiriman()
 		{
-			$id 					= $this->input->post('id');
-			$data['id_kategori'] 	= $this->input->post('id_kategori');
-			$data['tanggal_mou'] 	= $this->input->post('tanggal_mou');
-			$file_mou_lama			= $this->input->post('file_mou_lama');
-			$username 				= $this->input->post('username');
-			
-			if (!empty($_FILES['file_mou']['name'])) {
-				$file = h_upload($username, 'assets/assets/file', 'pdf|doc|docx', '1024', 'file_mou');
-
-		        if($file){
-					$data['file_mou'] = $file;
-					@unlink('./assets/assets/file/'.$file_mou_lama);
-				} else {
-					$data['file_mou'] = NULL;
-				}
-			}
-
-			$act = $this->MasterModel->updatePelanggan($id, $data);
-
-			if ($act) {
-				$response = array(
-					'type' => 'success',
-					'message' => 'Data MOU berhasil dikirim'
-				);
-			}else{
-				$response = array(
-					'type' => 'danger',
-					'message' => 'Data MOU gagal dikirim'
-				);
-			}
-
-			echo json_encode($response);
-
-		}
-	// Controller Pelanggan
-
-	// Controller Kategori
-		public function kategori()
-		{
-			$def['title'] = 'SISRES | Data Kategori';
-			$def['breadcrumb'] = 'Kategori Pelanggan';
+			$def['title'] = SHORT_SITE_URL.' | Data User Pengiriman';
+			$def['breadcrumb'] = 'Data User Pengiriman';
 
 			$this->load->view('partials/head', $def);
 			$this->load->view('partials/navbar');
 			$this->load->view('partials/breadcrumb', $def);
-			$this->load->view('admin/kategori');
+			$this->load->view('admin/upengiriman');
 			$this->load->view('partials/footer');
-			$this->load->view('admin/plugins/kategori');
+			$this->load->view('admin/plugins/upengiriman');
 		}
 
-		public function get_kategori()
+		public function getPengirimanById()
 		{
-			$list = $this->MasterModel->get_kategori();
+			$id = $this->input->post('id');
+			$data = $this->UPengirimanModel->getPengirimanById($id)->row();
+			echo json_encode($data);
+		}
+
+		public function get_pengiriman()
+		{
+			$list = $this->UPengirimanModel->get_datatables();
 
 			$data = array();
 			$no = $_POST['start'];
@@ -467,14 +205,18 @@
 				$no++;
 				$row = array();
 				$row[] = $no;
-				$row[] = $ls->nama_kategori;
-				$row[] = $ls->nominal;
-				$row[] = $ls->jenis_kategori;
+				
+				$row[] = $ls->username;
+				$row[] = $ls->nama_lengkap;
+				$row[] = $ls->email;
+				$row[] = $ls->hp;
+				$row[] = $ls->jenis_kelamin;
+				$row[] = $ls->tempat_lahir.', '.$ls->tanggal_lahir;
 
 				$row[] = '
 					<div class="btn-group">
-						<button class="btn btn-default btn-sm edit-data" data-nama="'.$ls->nama_kategori.'" data-id="'.$ls->id_kategori.'"><span class="fas fa-cog"></span></button>
-						<button data-id="'.$ls->id_kategori.'" data-nama="'.$ls->nama_kategori.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
 					</div>';
 
 				$data[] = $row;
@@ -482,94 +224,426 @@
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->MasterModel->count_all_kategori(),
-	            "recordsFiltered" => $this->MasterModel->count_filtered_kategori(),
+	            "recordsTotal" => $this->UPengirimanModel->count_all(),
+	            "recordsFiltered" => $this->UPengirimanModel->count_filtered(),
 	            "data" => $data
 			);
 
 			echo json_encode($output);
 		}
 
-		public function getKategoriById()
+		public function addPengiriman()
 		{
-			$id_kategori = $this->input->get('id_kategori');
-			$data = $this->MasterModel->getKategoriById($id_kategori)->row();
+			$data['username'] = $this->input->post('username');
+			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['level'] = 5;
+			$data['status'] = 1;
+
+			$validate = $this->UPengirimanModel->getPengirimanByUsername($data['username']);
+			if ($validate->num_rows() > 0) {
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Username sudah tersedia silahkan coba lagi !!'
+				);
+			}else{
+
+				$act = $this->UPengirimanModel->addPengiriman($data);
+
+				if ($act) {
+					$response = array(
+						'type' => 'success',
+						'message' => 'Data User Pengiriman berhasil dikirim'
+					);
+				}else{
+					$response = array(
+						'type' => 'danger',
+						'message' => 'Data User Pengiriman gagal dikirim'
+					);
+				}
+			}
+			
+
+			echo json_encode($response);
+		}
+
+		public function updatePengiriman()
+		{
+			$id = $this->input->post('id');
+			$username = $this->input->post('username');
+
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			
+			$act = $this->UPengirimanModel->updatePengiriman($id, $data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data User Pengiriman Berhasil Diubah'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data User Pengiriman Gagal Diubah'
+				);
+			}
+
+			echo json_encode($response);
+		}
+
+		public function deletePengiriman()
+		{
+			$id = $this->input->post('id');
+			$data['status'] = 0;
+
+			$act = $this->UPengirimanModel->updatePengiriman($id, $data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data User Pengiriman Berhasil dihapus'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data User Pengiriman Gagal dihapus'
+				);
+			}
+
+			echo json_encode($response);
+		}
+
+	// End Function Pengiriman
+
+
+
+
+	// End Function Gudang
+
+		public function gudang()
+		{
+			$def['title'] = SHORT_SITE_URL.' | Data User Gudang';
+			$def['breadcrumb'] = 'Data User Gudang';
+
+			$this->load->view('partials/head', $def);
+			$this->load->view('partials/navbar');
+			$this->load->view('partials/breadcrumb', $def);
+			$this->load->view('admin/ugudang');
+			$this->load->view('partials/footer');
+			$this->load->view('admin/plugins/ugudang');
+		}
+
+		public function getGudangById()
+		{
+			$id = $this->input->post('id');
+			$data = $this->UGudangModel->getGudangById($id)->row();
 			echo json_encode($data);
 		}
 
-		public function addKategori()
+		public function get_gudang()
 		{
-			$data['nama_kategori'] = $this->input->post('nama_kategori');
-			$data['nominal'] = $this->input->post('nominal');
-			$data['jenis_kategori'] = $this->input->post('jenis_kategori');
+			$list = $this->UGudangModel->get_datatables();
 
-			$act = $this->MasterModel->addKategori($data);
+			$data = array();
+			$no = $_POST['start'];
+
+			foreach ($list as $ls) {
+
+				$no++;
+				$row = array();
+				$row[] = $no;
+				
+				$row[] = $ls->username;
+				$row[] = $ls->nama_lengkap;
+				$row[] = $ls->email;
+				$row[] = $ls->hp;
+				$row[] = $ls->jenis_kelamin;
+				$row[] = $ls->tempat_lahir.', '.$ls->tanggal_lahir;
+
+				$row[] = '
+					<div class="btn-group">
+						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+					</div>';
+
+				$data[] = $row;
+			}
+
+			$output = array(
+				"draw" => $_POST['draw'],
+	            "recordsTotal" => $this->UGudangModel->count_all(),
+	            "recordsFiltered" => $this->UGudangModel->count_filtered(),
+	            "data" => $data
+			);
+
+			echo json_encode($output);
+		}
+
+		public function addGudang()
+		{
+			$data['username'] = $this->input->post('username');
+			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['level'] = 3;
+			$data['status'] = 1;
+
+			$validate = $this->UGudangModel->getGudangByUsername($data['username']);
+			if ($validate->num_rows() > 0) {
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Username sudah tersedia silahkan coba lagi !!'
+				);
+			}else{
+
+				$act = $this->UGudangModel->addGudang($data);
+
+				if ($act) {
+					$response = array(
+						'type' => 'success',
+						'message' => 'Data User Gudang berhasil dikirim'
+					);
+				}else{
+					$response = array(
+						'type' => 'danger',
+						'message' => 'Data User Gudang gagal dikirim'
+					);
+				}
+			}
+			
+
+			echo json_encode($response);
+		}
+
+		public function updateGudang()
+		{
+			$id = $this->input->post('id');
+			$username = $this->input->post('username');
+
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			
+			$act = $this->UGudangModel->updateGudang($id, $data);
 
 			if ($act) {
 				$response = array(
 					'type' => 'success',
-					'message' => 'Data Kategori berhasil dikirim'
+					'message' => 'Data User Gudang Berhasil Diubah'
 				);
 			}else{
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Kategori gagal dikirim'
+					'message' => 'Data User Gudang Gagal Diubah'
 				);
 			}
 
 			echo json_encode($response);
 		}
 
-		public function updateKategori()
+		public function deleteGudang()
 		{
-			$id_kategori = $this->input->post('id_kategori');
-			$data['nama_kategori'] = $this->input->post('nama_kategori');
-			$data['nominal'] = $this->input->post('nominal');
-			$data['jenis_kategori'] = $this->input->post('jenis_kategori');
+			$id = $this->input->post('id');
+			$data['status'] = 0;
 
-			$act = $this->MasterModel->updateKategori($id_kategori, $data);
+			$act = $this->UGudangModel->updateGudang($id, $data);
 
 			if ($act) {
 				$response = array(
 					'type' => 'success',
-					'message' => 'Data Kategori berhasil dikirim'
+					'message' => 'Data User Gudang Berhasil dihapus'
 				);
 			}else{
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Kategori gagal dikirim'
+					'message' => 'Data User Gudang Gagal dihapus'
+				);
+			}
+
+			echo json_encode($response);
+		}
+		
+	// End Function Gudang
+
+
+
+
+	// End Function Salesman
+
+		public function salesman()
+		{
+			$def['title'] = SHORT_SITE_URL.' | Data User Salesman';
+			$def['breadcrumb'] = 'Data User Salesman';
+
+			$this->load->view('partials/head', $def);
+			$this->load->view('partials/navbar');
+			$this->load->view('partials/breadcrumb', $def);
+			$this->load->view('admin/usalesman');
+			$this->load->view('partials/footer');
+			$this->load->view('admin/plugins/usalesman');
+		}
+
+		public function getSalesmanById()
+		{
+			$id = $this->input->post('id');
+			$data = $this->USalesmanModel->getSalesmanById($id)->row();
+			echo json_encode($data);
+		}
+
+		public function get_salesman()
+		{
+			$list = $this->USalesmanModel->get_datatables();
+
+			$data = array();
+			$no = $_POST['start'];
+
+			foreach ($list as $ls) {
+
+				$no++;
+				$row = array();
+				$row[] = $no;
+				
+				$row[] = $ls->username;
+				$row[] = $ls->nama_lengkap;
+				$row[] = $ls->email;
+				$row[] = $ls->hp;
+				$row[] = $ls->jenis_kelamin;
+				$row[] = $ls->tempat_lahir.', '.$ls->tanggal_lahir;
+
+				$row[] = '
+					<div class="btn-group">
+						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+					</div>';
+
+				$data[] = $row;
+			}
+
+			$output = array(
+				"draw" => $_POST['draw'],
+	            "recordsTotal" => $this->USalesmanModel->count_all(),
+	            "recordsFiltered" => $this->USalesmanModel->count_filtered(),
+	            "data" => $data
+			);
+
+			echo json_encode($output);
+		}
+
+		public function addSalesman()
+		{
+			$data['username'] = $this->input->post('username');
+			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			$data['level'] = 4;
+			$data['status'] = 1;
+
+			$validate = $this->USalesmanModel->getSalesmanByUsername($data['username']);
+			if ($validate->num_rows() > 0) {
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Username sudah tersedia silahkan coba lagi !!'
+				);
+			}else{
+
+				$act = $this->USalesmanModel->addSalesman($data);
+
+				if ($act) {
+					$response = array(
+						'type' => 'success',
+						'message' => 'Data User Salesman berhasil dikirim'
+					);
+				}else{
+					$response = array(
+						'type' => 'danger',
+						'message' => 'Data User Salesman gagal dikirim'
+					);
+				}
+			}
+			
+
+			echo json_encode($response);
+		}
+
+		public function updateSalesman()
+		{
+			$id = $this->input->post('id');
+			$username = $this->input->post('username');
+
+			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
+			$data['email'] = $this->input->post('email');
+			$data['hp'] = $this->input->post('hp');
+			$data['jenis_kelamin'] = $this->input->post('jenis_kelamin');
+			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
+			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
+			$data['alamat'] = $this->input->post('alamat');
+			
+			$act = $this->USalesmanModel->updateSalesman($id, $data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data User Salesman Berhasil Diubah'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data User Salesman Gagal Diubah'
 				);
 			}
 
 			echo json_encode($response);
 		}
 
-		public function deleteKategori()
+		public function deleteSalesman()
 		{
-			$id_kategori = $this->input->post('id_kategori');
-			$act = $this->MasterModel->deleteKategori($id_kategori);
+			$id = $this->input->post('id');
+			$data['status'] = 0;
+
+			$act = $this->USalesmanModel->updateSalesman($id, $data);
 
 			if ($act) {
 				$response = array(
 					'type' => 'success',
-					'message' => 'Data Kategori berhasil dikirim'
+					'message' => 'Data User Salesman Berhasil dihapus'
 				);
 			}else{
 				$response = array(
 					'type' => 'danger',
-					'message' => 'Data Kategori gagal dikirim'
+					'message' => 'Data User Salesman Gagal dihapus'
 				);
 			}
 
 			echo json_encode($response);
 		}
-
-		public function showSelectKategori()
-		{
-			$list = $this->MasterModel->showSelectKategori()->result();
-			echo json_encode($list);
-		}
-	// Controller Kategori
+		
+	// End Function Gudang
 	
 	}
 	

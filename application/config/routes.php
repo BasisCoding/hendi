@@ -53,28 +53,17 @@ $route['default_controller'] = 'Auth';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
-$route['logout'] 	= 'Auth/logout';
-$route['admin'] 	= 'admin/Dashboard';
-$route['petugas'] 	= 'petugas/Dashboard';
-$route['pelanggan'] = 'pelanggan/Dashboard';
-$route['kepaladinas'] = 'kepaladinas/Dashboard';
+$route['logout'] 		= 'Auth/logout';
 
+$route['admin'] 		= 'admin/Dashboard';
+	$route['admin/upelanggan']	= 'admin/MasterData/pelanggan';
+	$route['admin/upengiriman']	= 'admin/MasterData/pengiriman';
+	$route['admin/ugudang']		= 'admin/MasterData/gudang';
+	$route['admin/usalesman']	= 'admin/MasterData/salesman';
 
-$route['admin/datapetugas'] 	= 'admin/MasterData/datapetugas';
-$route['admin/kategori'] 		= 'admin/MasterData/kategori';
-$route['admin/datapelanggan'] 	= 'admin/MasterData/datapelanggan';
-$route['admin/kartupelanggan'] 	= 'KartuPelanggan';
-
-
-$route['petugas/profile'] 		= 'petugas/Profile';
-$route['petugas/pembayaran'] 	= 'petugas/Pembayaran';
-$route['petugas/laporan'] 		= 'petugas/Laporan';
-$route['scanQRcode/(:any)'] 	= 'petugas/Pembayaran/scanToPayment/$1';
-
-
-$route['pelanggan/profile'] 		= 'pelanggan/Profile';
-$route['pelanggan/pembayaran'] 		= 'pelanggan/Pembayaran';
-$route['pelanggan/laporan'] 		= 'pelanggan/Laporan';
-
-$route['admin/laporan']				= 'Laporan';
-$route['kepaladinas/laporan']		= 'Laporan';
+	
+$route['pelanggan'] 	= 'pelanggan/Dashboard';
+$route['gudang'] 		= 'gudang/Dashboard';
+$route['salesman'] 		= 'salesman/Dashboard';
+	
+	
