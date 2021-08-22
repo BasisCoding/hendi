@@ -11,6 +11,13 @@
 			$this->load->model('UGudangModel');
 			$this->load->model('USalesmanModel');
 		}
+	// Get User Group
+
+		public function getUserGroup()
+		{
+			$data = $this->db->get('users_group')->result();
+			echo json_encode($data);
+		}
 	
 	// Function Pelanggan
 		
@@ -47,7 +54,6 @@
 				$row = array();
 				$row[] = $no;
 				
-				$row[] = $ls->username;
 				$row[] = $ls->nama_lengkap;
 				$row[] = $ls->email;
 				$row[] = $ls->hp;
@@ -56,7 +62,7 @@
 
 				$row[] = '
 					<div class="btn-group">
-						<button class="btn btn-default btn-sm edit-data" data-username="'.$ls->username.'" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+						<button class="btn btn-default btn-sm edit-data" data-nama="'.$ls->nama_lengkap.'" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
 						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_lengkap.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
 					</div>';
 
@@ -75,8 +81,6 @@
 
 		public function addPelanggan()
 		{
-			$data['username'] = $this->input->post('username');
-			$data['password'] = hash('sha512', $this->input->post('password').config_item('encryption_key'));
 			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
 			$data['email'] = $this->input->post('email');
 			$data['hp'] = $this->input->post('hp');
@@ -84,32 +88,22 @@
 			$data['tempat_lahir'] = $this->input->post('tempat_lahir');
 			$data['tanggal_lahir'] = $this->input->post('tanggal_lahir');
 			$data['alamat'] = $this->input->post('alamat');
-			$data['level'] = 2;
 			$data['status'] = 1;
 
-			$validate = $this->UPelangganModel->getPelangganByUsername($data['username']);
-			if ($validate->num_rows() > 0) {
+
+			$act = $this->UPelangganModel->addPelanggan($data);
+
+			if ($act) {
 				$response = array(
-					'type' => 'danger',
-					'message' => 'Username sudah tersedia silahkan coba lagi !!'
+					'type' => 'success',
+					'message' => 'Data Pelanggan berhasil dikirim'
 				);
 			}else{
-
-				$act = $this->UPelangganModel->addPelanggan($data);
-
-				if ($act) {
-					$response = array(
-						'type' => 'success',
-						'message' => 'Data Pelanggan berhasil dikirim'
-					);
-				}else{
-					$response = array(
-						'type' => 'danger',
-						'message' => 'Data Pelanggan gagal dikirim'
-					);
-				}
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data Pelanggan gagal dikirim'
+				);
 			}
-			
 
 			echo json_encode($response);
 		}
@@ -117,7 +111,6 @@
 		public function updatePelanggan()
 		{
 			$id = $this->input->post('id');
-			$username = $this->input->post('username');
 
 			$data['nama_lengkap'] = $this->input->post('nama_lengkap');
 			$data['email'] = $this->input->post('email');

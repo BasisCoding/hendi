@@ -19,7 +19,6 @@
                 <thead class="thead-light">
                   <tr>
                     <th>No</th>
-                    <th>Username</th>
                     <th>Nama Lengkap</th>
                     <th>Email</th>
                     <th>HP</th>
@@ -38,7 +37,7 @@
       </div>
 
       <div class="modal fade" id="modal-addPelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-addPelanggan" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-top modal-lg" role="document">
+        <div class="modal-dialog modal- modal-dialog-top modal-md" role="document">
             <div class="modal-content">
                 
                 <div class="modal-header">
@@ -51,93 +50,57 @@
                 <div class="modal-body">
                   <form class="form" id="form-addPelanggan" method="POST" enctype="multipart/form-data">
 
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="h5">Username</label>
-                          <input type="text" name="username" class="form-control form-control-sm" required>
-                        </div>
+                      <div class="form-group">
+                        <label class="h5">Nama Lengkap</label>
+                        <input type="text" name="nama_lengkap" class="form-control form-control-sm" required>
+                      </div>  
 
+                      <div class="form-group">
+                        <label class="h5">Email</label>
+                        <input type="email" name="email" class="form-control form-control-sm" required>
+                      </div>
+
+                      <div class="form-group">
+
+                        <label class="h5">Jenis Kelamin</label>
                         <div class="row">
-                          <div class="col-6">
-                            <div class="form-group">
-                              <label class="h5">Password</label>
-                              <input type="password" name="password" class="form-control form-control-sm">
-                              <small class="notSamePassword text-danger" hidden>
-                                Password Tidak Sama
-                              </small>
+                          <div class="col">
+                            <div class="custom-control custom-radio">
+                              <input name="jenis_kelamin" class="custom-control-input" id="laki-laki" type="radio" value="L" checked>
+                              <label class="custom-control-label" for="laki-laki">Laki-Laki</label>
                             </div>
                           </div>
-                          <div class="col-6">
-                            <div class="form-group">
-                              <label class="h5">Konfirmasi Password</label>
-                              <input type="password" name="konf_password" class="form-control form-control-sm">
-                              <small class="notSamePassword text-danger" hidden>
-                                Konfirmasi Password Tidak Sama
-                              </small>
+
+                          <div class="col text-left">
+                            <div class="custom-control custom-radio mb-2">
+                              <input name="jenis_kelamin" class="custom-control-input" id="perempuan" type="radio" value="P">
+                              <label class="custom-control-label" for="perempuan">Perempuan</label>
                             </div>
                           </div>
                         </div>
-
-                        <div class="form-group">
-                          <label class="h5">Nama Lengkap</label>
-                          <input type="text" name="nama_lengkap" class="form-control form-control-sm" required>
-                        </div>  
-
-                        <div class="form-group">
-                          <label class="h5">Email</label>
-                          <input type="email" name="email" class="form-control form-control-sm" required>
-                        </div>
-
+                        
                       </div>
 
-                      <div class="col-md-6">
-
-                        <div class="form-group">
-
-                          <label class="h5">Jenis Kelamin</label>
-                          <div class="row">
-                            <div class="col">
-                              <div class="custom-control custom-radio">
-                                <input name="jenis_kelamin" class="custom-control-input" id="laki-laki" type="radio" value="L" checked>
-                                <label class="custom-control-label" for="laki-laki">Laki-Laki</label>
-                              </div>
-                            </div>
-
-                            <div class="col text-left">
-                              <div class="custom-control custom-radio mb-2">
-                                <input name="jenis_kelamin" class="custom-control-input" id="perempuan" type="radio" value="P">
-                                <label class="custom-control-label" for="perempuan">Perempuan</label>
-                              </div>
-                            </div>
+                      <div class="form-group">
+                        <label class="h5">Tempat, Tanggal Lahir</label>
+                        <div class="input-group input-group-merge input-group-alternative">
+                          <div class="input-group-prepend">
+                            <input type="text" name="tempat_lahir" placeholder="Tempat Lahir" class="form-control form-control-sm" required>
                           </div>
-                          
+                          <input type="date" name="tanggal_lahir" class="form-control form-control-sm" required>
                         </div>
-
-                        <div class="form-group">
-                          <label class="h5">Tempat, Tanggal Lahir</label>
-                          <div class="input-group input-group-merge input-group-alternative">
-                            <div class="input-group-prepend">
-                              <input type="text" name="tempat_lahir" placeholder="Tempat Lahir" class="form-control form-control-sm" required>
-                            </div>
-                            <input type="date" name="tanggal_lahir" class="form-control form-control-sm" required>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="h5">HP</label>
-                          <input type="number" name="hp" class="form-control form-control-sm" required>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="h5">Alamat</label>
-                          <textarea class="form-control form-control-sm" name="alamat"></textarea required>
-                        </div>
-
                       </div>
 
-                    </div>
-                    
+                      <div class="form-group">
+                        <label class="h5">HP</label>
+                        <input type="number" name="hp" class="form-control form-control-sm" required>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="h5">Alamat</label>
+                        <textarea class="form-control form-control-sm" name="alamat"></textarea required>
+                      </div>
+
                   </form> 
                 </div>
 
@@ -150,7 +113,7 @@
       </div>
 
       <div class="modal fade" id="modal-updatePelanggan" tabindex="-1" role="dialog" aria-labelledby="modal-updatePelanggan" aria-hidden="true">
-        <div class="modal-dialog modal- modal-dialog-top modal-lg" role="document">
+        <div class="modal-dialog modal- modal-dialog-top modal-md" role="document">
             <div class="modal-content">
                 
                 <div class="modal-header">
@@ -163,71 +126,58 @@
                 <div class="modal-body">
                   <form class="form" id="form-updatePelanggan" method="POST" enctype="multipart/form-data">
                     <input type="hidden" name="id_update">
-                    <div class="row">
-                      <div class="col-md-6">
-                        <div class="form-group">
-                          <label class="h5">Username</label>
-                          <input type="text" name="username_update" class="form-control form-control-sm" readonly>
-                        </div>
 
-                        <div class="form-group">
-                          <label class="h5">Nama Lengkap</label>
-                          <input type="text" name="nama_lengkap_update" class="form-control form-control-sm" required>
-                        </div>  
+                    <div class="form-group">
+                      <label class="h5">Nama Lengkap</label>
+                      <input type="text" name="nama_lengkap_update" class="form-control form-control-sm" required>
+                    </div>  
 
-                        <div class="form-group">
-                          <label class="h5">Email</label>
-                          <input type="email" name="email_update" class="form-control form-control-sm" required>
-                        </div>
-
-                      </div>
-
-                      <div class="col-md-6">
-
-                        <div class="form-group">
-
-                          <label class="h5">Jenis Kelamin</label>
-                          <div class="row">
-                            <div class="col">
-                              <div class="custom-control custom-radio">
-                                <input name="jenis_kelamin_update" class="custom-control-input" id="laki-laki_update" type="radio" value="L">
-                                <label class="custom-control-label" for="laki-laki_update">Laki-Laki</label>
-                              </div>
-                            </div>
-
-                            <div class="col text-left">
-                              <div class="custom-control custom-radio mb-2">
-                                <input name="jenis_kelamin_update" class="custom-control-input" id="perempuan_update" type="radio" value="P">
-                                <label class="custom-control-label" for="perempuan_update">Perempuan</label>
-                              </div>
-                            </div>
-                          </div>
-                          
-                        </div>
-
-                        <div class="form-group">
-                          <label class="h5">Tempat, Tanggal Lahir</label>
-                          <div class="input-group input-group-merge input-group-alternative">
-                            <div class="input-group-prepend">
-                              <input type="text" name="tempat_lahir_update" placeholder="Tempat Lahir" class="form-control form-control-sm" required>
-                            </div>
-                            <input type="date" name="tanggal_lahir_update" class="form-control form-control-sm" required>
-                          </div>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="h5">HP</label>
-                          <input type="number" name="hp_update" class="form-control form-control-sm" required>
-                        </div>
-
-                        <div class="form-group">
-                          <label class="h5">Alamat</label>
-                          <textarea class="form-control form-control-sm" name="alamat_update"></textarea required>
-                        </div>
-
-                      </div>
-                    
+                    <div class="form-group">
+                      <label class="h5">Email</label>
+                      <input type="email" name="email_update" class="form-control form-control-sm" required>
                     </div>
+
+                    <div class="form-group">
+
+                      <label class="h5">Jenis Kelamin</label>
+                      <div class="row">
+                        <div class="col">
+                          <div class="custom-control custom-radio">
+                            <input name="jenis_kelamin_update" class="custom-control-input" id="laki-laki_update" type="radio" value="L">
+                            <label class="custom-control-label" for="laki-laki_update">Laki-Laki</label>
+                          </div>
+                        </div>
+
+                        <div class="col text-left">
+                          <div class="custom-control custom-radio mb-2">
+                            <input name="jenis_kelamin_update" class="custom-control-input" id="perempuan_update" type="radio" value="P">
+                            <label class="custom-control-label" for="perempuan_update">Perempuan</label>
+                          </div>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                    <div class="form-group">
+                      <label class="h5">Tempat, Tanggal Lahir</label>
+                      <div class="input-group input-group-merge input-group-alternative">
+                        <div class="input-group-prepend">
+                          <input type="text" name="tempat_lahir_update" placeholder="Tempat Lahir" class="form-control form-control-sm" required>
+                        </div>
+                        <input type="date" name="tanggal_lahir_update" class="form-control form-control-sm" required>
+                      </div>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="h5">HP</label>
+                      <input type="number" name="hp_update" class="form-control form-control-sm" required>
+                    </div>
+
+                    <div class="form-group">
+                      <label class="h5">Alamat</label>
+                      <textarea class="form-control form-control-sm" name="alamat_update"></textarea required>
+                    </div>
+
                     
                   </form> 
                 </div>

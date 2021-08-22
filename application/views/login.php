@@ -73,11 +73,7 @@
                       <span class="input-group-text"><i class="ni ni-badge"></i></span>
                     </div>
                     <select name="level" class="form-control">
-                      <option value="">Level Akses</option>
-                      <option value="admin">Administrator</option>
-                      <option value="petugas">Petugas</option>
-                      <option value="pelanggan">Pelanggan</option>
-                      <option value="kepaladinas">Kepala Dinas</option>
+                      <option readonly="">Level Akses</option>
                     </select>
                   </div>
                 </div>
@@ -107,15 +103,31 @@
     </div>
   </div>
   
+
   <!-- Core -->
   <script src="<?= site_url('assets/assets/vendor/jquery/dist/jquery.min.js') ?>"></script>
   <script src="<?= site_url('assets/assets/vendor/bootstrap/dist/js/bootstrap.bundle.min.js') ?>"></script> 
   <script src="<?= site_url('assets/assets/vendor/js-cookie/js.cookie.js') ?>"></script>
 
   <script src="<?= site_url('assets/assets/vendor/bootstrap-notify/bootstrap-notify.min.js') ?>"></script>
-
   <script type="text/javascript">
     $(document).ready(function() {
+      selectGroup();
+
+      function selectGroup() {
+        var fieldGroup = $('[name="level"]')
+        $.ajax({
+          url: '<?= base_url("admin/MasterData/getUserGroup") ?>',
+          type: 'GET',
+          dataType: 'JSON',
+          success:function (data) {
+            for (var i = 0; i < data.length; i++) {
+              fieldGroup.append('<option class="font-weight-bold" value="'+data[i].link+'">'+data[i].nama_group+'</option>');
+            }
+          }
+        });
+      }
+
       $('#form-login').on('submit', function() {
                     
           $.ajax({
@@ -153,8 +165,11 @@
 
           return false;
       });
+
     });
-  </script>
+</script>
+
+  
 </body>
 
 </html>

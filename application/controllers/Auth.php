@@ -66,7 +66,6 @@
 				'email'			=> $row->email,
 				'nama_lengkap'	=> $row->nama_lengkap,
 				'level'			=> $row->level,
-				'foto'			=> $row->foto,
 				'nama_akses'	=> $row->nama_group,
 				'link'			=> $row->link,
 				'logged' 		=> TRUE

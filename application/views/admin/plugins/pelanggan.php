@@ -9,12 +9,12 @@
 		table = $('#table-pelanggan').DataTable({
 			"processing": true, 
             "serverSide": true,
-            "scrollX": true,
-            "fixedColumns": {
-            	 "leftColumns": 1,
-            	 "rightColumns": 1
-            },
-            // "responsive": true,
+            // "scrollX": true,
+            // "fixedColumns": {
+            // 	 "leftColumns": 1,
+            // 	 "rightColumns": 1
+            // },
+            "responsive": true,
             // "lengthChange": false,
             "order": [],
             "autoWidth" : true,
@@ -85,8 +85,6 @@
             	return false;
             }else{
             	var formData = new FormData();
-	            formData.append('username', $('[name="username"]').val()); 
-	            formData.append('password', $('[name="password"]').val()); 
 	            formData.append('nama_lengkap', $('[name="nama_lengkap"]').val()); 
 	            formData.append('email', $('[name="email"]').val()); 
 	            formData.append('hp', $('[name="hp"]').val()); 
@@ -106,7 +104,6 @@
 			
 			var formData = new FormData();
             formData.append('id', $('[name="id_update"]').val()); 
-            formData.append('username', $('[name="username_update"]').val()); 
             formData.append('nama_lengkap', $('[name="nama_lengkap_update"]').val()); 
             formData.append('email', $('[name="email_update"]').val()); 
             formData.append('hp', $('[name="hp_update"]').val()); 
@@ -152,7 +149,6 @@
 					
 					$('[name="id_update"]').val(id);
 					$('[name="nama_lengkap_update"]').val(data.nama_lengkap);
-					$('[name="username_update"]').val(data.username);
 					$('[name="email_update"]').val(data.email);
 					$('[name="hp_update"]').val(data.hp);
 					$('[name="tempat_lahir_update"]').val(data.tempat_lahir);

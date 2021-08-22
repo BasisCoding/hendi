@@ -62,8 +62,13 @@ $route['admin'] 		= 'admin/Dashboard';
 	$route['admin/usalesman']	= 'admin/MasterData/salesman';
 
 	
-$route['pelanggan'] 	= 'pelanggan/Dashboard';
-$route['gudang'] 		= 'gudang/Dashboard';
 $route['salesman'] 		= 'salesman/Dashboard';
+	$route['salesman/pesanan'] = 'salesman/Pesanan';
+	$route['salesman/upelanggan'] = 'salesman/Pelanggan';
+
+
+$route['gudang'] 		= 'gudang/Dashboard';
+$route['pelanggan'] 	= 'pelanggan/Dashboard';
+$route['pengiriman'] 	= 'pengiriman/Dashboard';
 	
 	
