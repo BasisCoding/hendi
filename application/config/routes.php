@@ -63,12 +63,15 @@ $route['admin'] 		= 'admin/Dashboard';
 
 	
 $route['salesman'] 		= 'salesman/Dashboard';
-	$route['salesman/pesanan'] = 'salesman/Pesanan';
-	$route['salesman/upelanggan'] = 'salesman/Pelanggan';
+	$route['salesman/pesanan'] 		= 'salesman/Pesanan';
+	$route['salesman/upelanggan'] 	= 'salesman/Pelanggan';
 
 
 $route['gudang'] 		= 'gudang/Dashboard';
-$route['pelanggan'] 	= 'pelanggan/Dashboard';
+	$route['gudang/pesanan'] 		= 'gudang/Pesanan';
+	$route['gudang/usalesman'] 		= 'gudang/Salesman';
+
+
 $route['pengiriman'] 	= 'pengiriman/Dashboard';
-	
-	
+	$route['pengiriman/pesanan'] 	= 'pengiriman/Pesanan';
+	$route['pengiriman/upelanggan'] = 'pengiriman/Pelanggan';

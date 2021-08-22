@@ -5,7 +5,6 @@
 	$(document).ready(function() {
 		selectPelanggan();
 		selectBarang();
-		getKodePesanan();
 		// $('#table-pesanan').scrollbar();
 		function getKodePesanan() {
 			var kode_pesanan = $('[name="kode_pesanan"]')
@@ -46,6 +45,10 @@
 				}
 			});
 		}
+
+		$('#btn-addPesanan').click(function() {
+			getKodePesanan();
+		});
 
 		$('.id_pelanggan').select2({
 			placeholder: "Pilih Pelanggan",

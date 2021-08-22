@@ -3,19 +3,18 @@
 	
 	class PesananModel extends CI_Model {
 	
-		var $column_order = array(null, 'p.nama_lengkap','b.nama_barang', 'ps.kode_pesanan', 'ps.status_pesanan'); 
-	    var $column_search = array('p.nama_lengkap','b.nama_barang', 'ps.kode_pesanan', 'ps.status_pesanan'); //field yang diizin untuk pencarian 
-	    var $order = array('ps.kode_pesanan' => 'asc'); // default order 
+		var $column_order = array(null, 'p.nama_lengkap','b.nama_barang', 'ps.kode_pesanan', 'ps.status_pesanan', 's.nama_lengkap'); 
+	    var $column_search = array('p.nama_lengkap','b.nama_barang', 'ps.kode_pesanan', 'ps.status_pesanan', 's.nama_lengkap'); //field yang diizin untuk pencarian 
+	    var $order = array('ps.kode_pesanan' => 'desc'); // default order 
 	
 	// Datatable
 		private function _get_datatables_query()
 		{
-			$this->db->select('ps.*, p.nama_lengkap as nama_pelanggan, b.nama_barang, b.kode_barang');
+			$this->db->select('ps.*, p.nama_lengkap as nama_pelanggan, b.nama_barang, b.kode_barang, s.nama_lengkap as nama_salesman');
 			$this->db->from('pesanan as ps');
 			$this->db->join('salesman as s', 's.id = ps.id_salesman', 'left');
 			$this->db->join('pelanggan as p', 'p.id = ps.id_pelanggan', 'left');
 			$this->db->join('barang as b', 'b.id = ps.id_barang', 'left');
-			$this->db->where('id_salesman', $this->session->userdata('id'));
 	        $i = 0;
 	     	
 	        foreach ($this->column_search as $item) // looping awal
@@ -47,26 +46,36 @@
 	        }
 		}
 
-		function get_datatables()
+		function get_datatables($where=NULL)
 		{
 			$this->_get_datatables_query();
 	        if($_POST['length'] != -1)
 	        $this->db->limit($_POST['length'], $_POST['start']);
+		   
+		    if ($where != NULL) {
+		    	$this->db->where($where);
+		    }
 	    	
 	        $query = $this->db->get();
 	        return $query->result();
 		}
 
-		function count_filtered()
+		function count_filtered($where=NULL)
 	    {
 	        $this->_get_datatables_query();
+	    	if ($where != NULL) {
+		    	$this->db->where($where);
+		    }
 	        $query = $this->db->get();
 	        return $query->num_rows();
 	    }
 	 
-	    function count_all()
+	    function count_all($where=NULL)
 	    {
 	        $this->db->from('pesanan');
+	    	if ($where != NULL) {
+		    	$this->db->where($where);
+		    }
 	        return $this->db->count_all_results();
 	    }
 	// Datatable

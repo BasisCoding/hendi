@@ -61,12 +61,36 @@
 		
 		public function get_pesanan()
 		{
-			$list = $this->PesananModel->get_datatables();
+			$where['id_salesman'] = $this->session->userdata('id');
+			$list = $this->PesananModel->get_datatables($where);
 
 			$data = array();
 			$no = $_POST['start'];
 
 			foreach ($list as $ls) {
+
+				if ($ls->status_pesanan == 'Proses') {
+					$button = '<div class="btn-group">
+								<button class="btn btn-default btn-sm edit-data" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+								<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+							</div>';
+					$status = '<span class="badge badge-dot mr-4">
+	                            <i class="bg-danger"></i>
+	                            <span class="status">Proses</span>
+	                          </span>';
+				}if ($ls->status_pesanan == 'Siap Dikirim') {
+					$button = '';
+					$status = '<span class="badge badge-dot mr-4">
+	                            <i class="bg-warning"></i>
+	                            <span class="status">Siap Dikirim</span>
+	                          </span>';
+				}if ($ls->status_pesanan == 'Dikirim') {
+					$button = '';
+					$status = '<span class="badge badge-dot mr-4">
+	                            <i class="bg-success"></i>
+	                            <span class="status">Dikirim</span>
+	                          </span>';
+				}
 
 				$no++;
 				$row = array();
@@ -78,21 +102,17 @@
 				$row[] = $ls->nama_barang;
 				$row[] = $ls->harga_barang;
 				$row[] = $ls->jumlah_barang;
-				$row[] = $ls->status_pesanan;
+				$row[] = $status;
 
-				$row[] = '
-					<div class="btn-group">
-						<button class="btn btn-default btn-sm edit-data" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
-						<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
-					</div>';
+				$row[] = $button;
 
 				$data[] = $row;
 			}
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->PesananModel->count_all(),
-	            "recordsFiltered" => $this->PesananModel->count_filtered(),
+	            "recordsTotal" => $this->PesananModel->count_all($where),
+	            "recordsFiltered" => $this->PesananModel->count_filtered($where),
 	            "data" => $data
 			);
 

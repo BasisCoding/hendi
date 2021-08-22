@@ -8,7 +8,7 @@
             <!-- Card header -->
             <div class="card-header">
                 <div class="col text-right">
-                    <button class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="modal" data-target="#modal-addPesanan">
+                    <button class="btn btn-sm btn-neutral btn-round btn-icon" data-toggle="modal" id="btn-addPesanan" data-target="#modal-addPesanan">
                       <span class="btn-inner--icon"><i class="ni ni-fat-add"></i></span>
                       <span class="btn-inner--text">Tambah</span>
                     </button>
