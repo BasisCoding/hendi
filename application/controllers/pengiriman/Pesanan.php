@@ -22,6 +22,14 @@
 			$this->load->view('pengiriman/plugins/pesanan');
 		}
 
+		public function getPesananById()
+		{
+			$id = $this->input->get('id');
+			$get = $this->PesananModel->getPesananById($id)->row();
+
+			echo json_encode($get);
+		}
+
 		public function get_pesanan()
 		{
 			$where = 'status_pesanan != "Proses"';
@@ -42,7 +50,7 @@
 				}if ($ls->status_pesanan == 'Siap Dikirim') {
 					$button = '<div class="btn-group">
 									<button class="btn btn-warning btn-sm kirim-pesanan" data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'"><span class="ni ni-delivery-fast"></span></button>
-									<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-success lihat-pesanan btn-sm"><span class="ni ni-collection"></span></button>
+									<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-success detail-pesanan btn-sm"><span class="ni ni-collection"></span></button>
 								</div>';
 
 					$status = '<span class="badge badge-dot mr-4">
@@ -50,7 +58,7 @@
 	                            <span class="status text-warning">Siap Dikirim</span>
 	                          </span>';
 				}if ($ls->status_pesanan == 'Dikirim') {
-					$button = '<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-success lihat-pesanan btn-sm"><span class="ni ni-collection"></span></button>';
+					$button = '<button data-id="'.$ls->id.'" data-kode="'.$ls->kode_pesanan.'" class="btn btn-success detail-pesanan btn-sm"><span class="ni ni-collection"></span></button>';
 
 					$status = '<span class="badge badge-dot mr-4">
 	                            <i class="bg-success"></i>

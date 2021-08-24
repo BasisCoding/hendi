@@ -54,7 +54,12 @@
                   <?php }           
               }
             ?>
-
+            <li class="nav-item">
+              <a class="nav-link" href="<?= base_url('profil') ?>">
+                <i class="ni ni-circle-08 text-danger"></i>
+                <span class="nav-link-text">Profil</span>
+              </a>
+            </li>  
           </ul>
           <!-- Divider -->
           <hr class="my-3">

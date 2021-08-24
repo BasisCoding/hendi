@@ -80,6 +80,17 @@
 	    }
 	// Datatable
 
+	    public function getPesananById($id)
+	    {
+	    	$this->db->select('ps.*, p.nama_lengkap as nama_pelanggan,p.alamat, p.hp, b.nama_barang, b.kode_barang, s.nama_lengkap as nama_salesman');
+			$this->db->from('pesanan as ps');
+			$this->db->join('salesman as s', 's.id = ps.id_salesman', 'left');
+			$this->db->join('pelanggan as p', 'p.id = ps.id_pelanggan', 'left');
+			$this->db->join('barang as b', 'b.id = ps.id_barang', 'left');
+			$this->db->where('ps.id', $id);
+			return $this->db->get();
+	    }
+
 	    function addPesanan($data)
 	    {
 	    	return $this->db->insert('pesanan', $data);

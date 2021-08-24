@@ -10,6 +10,7 @@
 			$this->load->model('UPengirimanModel');
 			$this->load->model('UGudangModel');
 			$this->load->model('USalesmanModel');
+			$this->load->model('BarangModel');
 		}
 	// Get User Group
 
@@ -637,7 +638,140 @@
 		}
 		
 	// End Function Gudang
-	
+
+
+	// Function Barang
+		
+		public function barang()
+		{
+			$def['title'] = SHORT_SITE_URL.' | Data Barang';
+			$def['breadcrumb'] = 'Data Barang';
+
+			$this->load->view('partials/head', $def);
+			$this->load->view('partials/navbar');
+			$this->load->view('partials/breadcrumb', $def);
+			$this->load->view('admin/barang');
+			$this->load->view('partials/footer');
+			$this->load->view('admin/plugins/barang');
+		}
+
+		public function getBarangById()
+		{
+			$id = $this->input->post('id');
+			$data = $this->db->get_where('barang', array('id' => $id))->row();
+			echo json_encode($data);
+		}
+
+		public function get_barang()
+		{
+			$list = $this->BarangModel->get_datatables();
+
+			$data = array();
+			$no = $_POST['start'];
+
+			foreach ($list as $ls) {
+
+				$no++;
+				$row = array();
+				$row[] = $no;
+				
+				$row[] = $ls->kode_barang;
+				$row[] = $ls->nama_barang;
+				$row[] = $ls->harga_barang;
+				$row[] = $ls->stok_barang;
+
+				$row[] = '
+					<div class="btn-group">
+						<button class="btn btn-default btn-sm edit-data" data-id="'.$ls->id.'"><span class="fas fa-users-cog"></span></button>
+						<button data-id="'.$ls->id.'" data-nama="'.$ls->nama_barang.'" class="btn btn-danger delete-data btn-sm"><span class="fas fa-times"></span></button>
+					</div>';
+
+				$data[] = $row;
+			}
+
+			$output = array(
+				"draw" => $_POST['draw'],
+	            "recordsTotal" => $this->BarangModel->count_all(),
+	            "recordsFiltered" => $this->BarangModel->count_filtered(),
+	            "data" => $data
+			);
+
+			echo json_encode($output);
+		}
+
+		public function addBarang()
+		{
+			$data['kode_barang'] = $this->input->post('kode_barang');
+			$data['nama_barang'] = $this->input->post('nama_barang');
+			$data['harga_barang'] = $this->input->post('harga_barang');
+			$data['stok_barang'] = $this->input->post('stok_barang');
+
+			$act = $this->BarangModel->addBarang($data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data Barang berhasil dikirim'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data Barang gagal dikirim'
+				);
+			}
+
+			echo json_encode($response);
+		}
+
+		public function updateBarang()
+		{
+			$id = $this->input->post('id');
+
+			$data['kode_barang'] = $this->input->post('kode_barang');
+			$data['nama_barang'] = $this->input->post('nama_barang');
+			$data['harga_barang'] = $this->input->post('harga_barang');
+			$data['stok_barang'] = $this->input->post('stok_barang');
+			$data['update_at'] = date('Y-m-d H:i:s');
+			
+			$act = $this->BarangModel->updateBarang($id, $data);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data Barang Berhasil Diubah'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data Barang Gagal Diubah'
+				);
+			}
+
+			echo json_encode($response);
+		}
+
+		public function deleteBarang()
+		{
+			$id = $this->input->post('id');
+
+			$act = $this->BarangModel->deleteBarang($id);
+
+			if ($act) {
+				$response = array(
+					'type' => 'success',
+					'message' => 'Data Barang Berhasil dihapus'
+				);
+			}else{
+				$response = array(
+					'type' => 'danger',
+					'message' => 'Data Barang Gagal dihapus'
+				);
+			}
+
+			echo json_encode($response);
+		}
+
+	// End Function Barang
 	}
 	
 	/* End of file MasterData.php */

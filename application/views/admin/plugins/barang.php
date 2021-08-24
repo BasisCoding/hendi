@@ -3,8 +3,9 @@
 
 	var table;
 	$(document).ready(function() {
+	
 
-		table = $('#table-pesanan').DataTable({
+		table = $('#table-barang').DataTable({
 			"processing": true, 
             "serverSide": true,
             // "scrollX": true,
@@ -18,7 +19,7 @@
             "autoWidth" : true,
              
             "ajax": {
-                "url": "<?= base_url('pengiriman/Pesanan/get_pesanan')?>",
+                "url": "<?= base_url('admin/MasterData/get_barang')?>",
                 "type": "POST"
             },
 
@@ -43,7 +44,7 @@
 
 		function actionData(formData, action) {
 			$.ajax({
-				url: '<?= base_url("pengiriman/Pesanan/") ?>'+action+'',
+				url: '<?= base_url("admin/MasterData/") ?>'+action+'',
 				type: 'POST',
 				dataType: 'JSON',
 				data: formData,
@@ -74,48 +75,81 @@
 			});
 		}
 
-		$('#form-KirimPesanan').submit(function() {
-			var formData = new FormData();
-            formData.append('id', $('[name="id_pesanan_kirim"]').val()); 
+		$('#form-addBarang').submit(function() {
 			
-			actionData(formData, 'KirimPesanan');
+        	var formData = new FormData();
+            formData.append('kode_barang', $('[name="kode_barang"]').val()); 
+            formData.append('nama_barang', $('[name="nama_barang"]').val()); 
+            formData.append('harga_barang', $('[name="harga_barang"]').val()); 
+            formData.append('stok_barang', $('[name="stok_barang"]').val()); 
+
+        	actionData(formData, 'addBarang');
+
+        	setTimeout(function() {
+        		reload_table();
+        	}, 600);
+
+        	return false;
+		});
+
+		$('#form-updateBarang').submit(function() {
+			
+			var formData = new FormData();
+            formData.append('id', $('[name="id_update"]').val()); 
+           	formData.append('kode_barang', $('[name="kode_barang_update"]').val()); 
+            formData.append('nama_barang', $('[name="nama_barang_update"]').val()); 
+            formData.append('harga_barang', $('[name="harga_barang_update"]').val()); 
+            formData.append('stok_barang', $('[name="stok_barang_update"]').val()); 
+
+        	actionData(formData, 'updateBarang');
+
+        	setTimeout(function() {
+        		reload_table();
+        	}, 600);
+
+        	return false;
+		});
+
+		$('#form-deleteBarang').submit(function() {
+			var formData = new FormData();
+            formData.append('id', $('[name="id_barang_delete"]').val()); 
+			
+			actionData(formData, 'deleteBarang');
         	reload_table();
 
         	return false;
 		});
 
-		$('#table-data-pesanan').on('click', '.kirim-pesanan', function() {
+		$('#table-data-barang').on('click', '.delete-data', function() {
 			var id = $(this).attr('data-id');
-			var kode = $(this).attr('data-kode');
+			var nama = $(this).attr('data-nama');
 			
-			$('#pesanan-kirim').html(kode);
-			$('[name="id_pesanan_kirim"]').val(id);
+			$('#barang-delete').html(nama);
+			$('[name="id_barang_delete"]').val(id);
 
-			$('#modal-KirimPesanan').modal('show');
+			$('#modal-deleteBarang').modal('show');
 		});
 
-		$('#table-data-pesanan').on('click', '.detail-pesanan', function() {
+		$('#table-data-barang').on('click', '.edit-data', function() {
 			var id = $(this).attr('data-id');
 			$.ajax({
-				url: '<?= site_url('pengiriman/pesanan/getPesananById') ?>',
-				type: 'GET',
-				data:{id:id},
+				url: '<?= base_url("admin/MasterData/getBarangById") ?>',
+				type: 'POST',
 				dataType: 'JSON',
+				data:{id:id},
 				success:function (data) {
-					$('.kode_pesanan').html(data.kode_pesanan);
-					$('.nama_salesman').html(data.nama_salesman);
-					$('.nama_pelanggan').html(data.nama_pelanggan);
-					$('.kode_barang').html(data.kode_barang);
-					$('.nama_barang').html(data.nama_barang);
-					$('.jumlah_barang').html(data.jumlah_barang);
-					$('.alamat').html(data.alamat);
-					$('.hp').html(data.hp);
-
-					$('#modal-detailPesanan').modal('show');
+					
+					$('[name="id_update"]').val(id);
+					$('[name="kode_barang_update"]').val(data.kode_barang);
+					$('[name="harga_barang_update"]').val(data.harga_barang);
+					$('[name="stok_barang_update"]').val(data.stok_barang);
+					$('[name="nama_barang_update"]').val(data.nama_barang);
+					
+					$('#modal-updateBarang').modal('show');
 				}
 			});
-			
 		});
+
 
 	});
 </script>

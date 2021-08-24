@@ -54,12 +54,15 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 
 $route['logout'] 		= 'Auth/logout';
+$route['(:any)/profil'] 		= 'Profil';
 
 $route['admin'] 		= 'admin/Dashboard';
 	$route['admin/upelanggan']	= 'admin/MasterData/pelanggan';
 	$route['admin/upengiriman']	= 'admin/MasterData/pengiriman';
 	$route['admin/ugudang']		= 'admin/MasterData/gudang';
 	$route['admin/usalesman']	= 'admin/MasterData/salesman';
+	$route['admin/pesanan'] 	= 'admin/Pesanan';
+	$route['admin/barang'] 		= 'admin/MasterData/barang';
 
 	
 $route['salesman'] 		= 'salesman/Dashboard';

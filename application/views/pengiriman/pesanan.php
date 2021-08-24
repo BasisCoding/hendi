@@ -28,6 +28,71 @@
         </div>
       </div>
 
+      <div class="modal fade" id="modal-detailPesanan" tabindex="-1" role="dialog" aria-labelledby="modal-detailPesanan" aria-hidden="true">
+        <div class="modal-dialog modal- modal-dialog-top modal-sm" role="document">
+            <div class="modal-content">
+                
+                <div class="modal-header">
+                    <h6 class="modal-title" id="modal-title-default">Detail Pesanan</h6>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+
+                <div class="modal-body">
+                  <table>
+                    <tr>
+                      <td>Kode Pesanan</td>
+                      <td>:</td>
+                      <td class="kode_pesanan"></td>
+                    </tr>
+                    <tr>
+                      <td>Nama Salesman</td>
+                      <td>:</td>
+                      <td class="nama_salesman"></td>
+                    </tr>
+                    <tr>
+                      <td>Nama Pelanggan</td>
+                      <td>:</td>
+                      <td class="nama_pelanggan"></td>
+                    </tr>
+                    <tr>
+                      <td>Kode Barang</td>
+                      <td>:</td>
+                      <td class="kode_barang"></td>
+                    </tr>
+                    <tr>
+                      <td>Nama Barang</td>
+                      <td>:</td>
+                      <td class="nama_barang"></td>
+                    </tr>
+                    <tr>
+                      <td>Jumlah Barang</td>
+                      <td>:</td>
+                      <td class="jumlah_barang"></td>
+                    </tr>
+                    <tr>
+                      <td>Alamat</td>
+                      <td>:</td>
+                      <td class="alamat"></td>
+                    </tr>
+                    <tr>
+                      <td>HP</td>
+                      <td>:</td>
+                      <td class="hp"></td>
+                    </tr>
+                  </table>
+
+                </div>
+
+                <div class="modal-footer mt-0">
+                  <button type="submit" form="form-detailPesanan" class="btn btn-primary align-right">Save</button>
+                </div>
+                
+            </div>
+        </div>
+      </div>
+
       <div class="modal fade show" id="modal-KirimPesanan" tabindex="-1" role="dialog" aria-labelledby="modal-KirimPesanan" aria-modal="true">
         <div class="modal-dialog modal-danger modal-dialog-top modal-sm" role="document">
           <div class="modal-content bg-gradient-danger">
