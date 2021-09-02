@@ -9,7 +9,7 @@
 		function getKodePesanan() {
 			var kode_pesanan = $('[name="kode_pesanan"]')
 			$.ajax({
-				url: '<?= base_url("admin/Pesanan/getKodePesanan") ?>',
+				url: '<?= base_url("salesman/Pesanan/getKodePesanan") ?>',
 				type: 'GET',
 				dataType: 'JSON',
 				success:function (data) {
@@ -21,7 +21,7 @@
 		function selectPelanggan() {
 			var selectPelanggan = $('.id_pelanggan')
 			$.ajax({
-				url: '<?= base_url("admin/Pesanan/selectPelanggan") ?>',
+				url: '<?= base_url("salesman/Pesanan/selectPelanggan") ?>',
 				type: 'GET',
 				dataType: 'JSON',
 				success:function (data) {
@@ -35,7 +35,7 @@
 		function selectBarang() {
 			var selectBarang = $('.id_barang')
 			$.ajax({
-				url: '<?= base_url("admin/Pesanan/selectBarang") ?>',
+				url: '<?= base_url("salesman/Pesanan/selectBarang") ?>',
 				type: 'GET',
 				dataType: 'JSON',
 				success:function (data) {
@@ -76,7 +76,7 @@
             "autoWidth" : true,
              
             "ajax": {
-                "url": "<?= base_url('admin/Pesanan/get_pesanan')?>",
+                "url": "<?= base_url('salesman/Pesanan/get_pesanan')?>",
                 "type": "POST"
             },
 
@@ -101,7 +101,7 @@
 
 		function actionData(formData, action) {
 			$.ajax({
-				url: '<?= base_url("admin/Pesanan/") ?>'+action+'',
+				url: '<?= base_url("salesman/Pesanan/") ?>'+action+'',
 				type: 'POST',
 				dataType: 'JSON',
 				data: formData,

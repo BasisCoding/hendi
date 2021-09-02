@@ -83,8 +83,8 @@
 
 			$output = array(
 				"draw" => $_POST['draw'],
-	            "recordsTotal" => $this->PesananModel->count_all(),
-	            "recordsFiltered" => $this->PesananModel->count_filtered(),
+	            "recordsTotal" => $this->PesananModel->count_all($where),
+	            "recordsFiltered" => $this->PesananModel->count_filtered($where),
 	            "data" => $data
 			);
 
