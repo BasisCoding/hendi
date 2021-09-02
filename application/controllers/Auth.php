@@ -91,7 +91,7 @@
 
 		public function create_password()
 		{
-			$password 	= hash('sha512', 'kepaladinas'.config_item('encryption_key'));
+			$password 	= hash('sha512', 'admin'.config_item('encryption_key'));
 			echo $password;
 		}
 	
